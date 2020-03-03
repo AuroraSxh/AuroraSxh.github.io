@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title></title>
-  
-  
+  <title>玩儿</title>
+  <icon>https://www.gravatar.com/avatar/cb6c4bc01e2a81222488497a4e555eaa</icon>
+  <subtitle>开心地玩儿</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
@@ -10,8 +10,8 @@
   <id>http://yoursite.com/</id>
   
   <author>
-    <name>John Doe</name>
-    
+    <name>Xiaohan Song</name>
+    <email>171840518@smail.nju.edu.cn</email>
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
