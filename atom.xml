@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-19T03:43:59.108Z</updated>
+  <updated>2020-03-19T03:47:03.290Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/03/18/First-Step/"/>
     <id>http://yoursite.com/2020/03/18/First-Step/</id>
     <published>2020-03-18T11:42:41.000Z</published>
-    <updated>2020-03-19T03:43:59.108Z</updated>
+    <updated>2020-03-19T03:47:03.290Z</updated>
     
     <summary type="html">
     
@@ -39,7 +39,7 @@
       <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
     
     
-      <category term="yxx和小涵" scheme="http://yoursite.com/tags/yxx%E5%92%8C%E5%B0%8F%E6%B6%B5/"/>
+      <category term="yxx&amp;sxh" scheme="http://yoursite.com/tags/yxx-sxh/"/>
     
   </entry>
   
@@ -48,7 +48,7 @@
     <link href="http://yoursite.com/2020/03/15/Hello-yxx/"/>
     <id>http://yoursite.com/2020/03/15/Hello-yxx/</id>
     <published>2020-03-15T12:24:36.000Z</published>
-    <updated>2020-03-19T03:44:11.470Z</updated>
+    <updated>2020-03-19T03:45:57.234Z</updated>
     
     <summary type="html">
     
@@ -67,7 +67,7 @@
       <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
     
     
-      <category term="yxx&amp;宋霄涵" scheme="http://yoursite.com/tags/yxx-%E5%AE%8B%E9%9C%84%E6%B6%B5/"/>
+      <category term="yxx&amp;sxh" scheme="http://yoursite.com/tags/yxx-sxh/"/>
     
   </entry>
   
