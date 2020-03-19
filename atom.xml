@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-19T03:16:34.873Z</updated>
+  <updated>2020-03-19T03:43:59.108Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>First Step</title>
+    <link href="http://yoursite.com/2020/03/18/First-Step/"/>
+    <id>http://yoursite.com/2020/03/18/First-Step/</id>
+    <published>2020-03-18T11:42:41.000Z</published>
+    <updated>2020-03-19T03:43:59.108Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;想法&quot;&gt;&lt;a href=&quot;#想法&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
+    
+    
+      <category term="yxx和小涵" scheme="http://yoursite.com/tags/yxx%E5%92%8C%E5%B0%8F%E6%B6%B5/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello yxx</title>
     <link href="http://yoursite.com/2020/03/15/Hello-yxx/"/>
     <id>http://yoursite.com/2020/03/15/Hello-yxx/</id>
     <published>2020-03-15T12:24:36.000Z</published>
-    <updated>2020-03-19T03:16:34.873Z</updated>
+    <updated>2020-03-19T03:44:11.470Z</updated>
     
     <summary type="html">
     
@@ -40,7 +67,7 @@
       <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
     
     
-      <category term="余轩萱&amp;宋霄涵" scheme="http://yoursite.com/tags/%E4%BD%99%E8%BD%A9%E8%90%B1-%E5%AE%8B%E9%9C%84%E6%B6%B5/"/>
+      <category term="yxx&amp;宋霄涵" scheme="http://yoursite.com/tags/yxx-%E5%AE%8B%E9%9C%84%E6%B6%B5/"/>
     
   </entry>
   
