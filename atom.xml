@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-19T03:47:03.290Z</updated>
+  <updated>2020-03-21T03:14:20.369Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,21 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Lentivirus</title>
+    <link href="http://yoursite.com/2020/03/21/Lentivirus/"/>
+    <id>http://yoursite.com/2020/03/21/Lentivirus/</id>
+    <published>2020-03-21T02:08:32.000Z</published>
+    <updated>2020-03-21T03:14:20.369Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;iGEM比赛我方队伍所需慢病毒基础知识&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="iGEM" scheme="http://yoursite.com/categories/iGEM/"/>
+    
+    
+      <category term="Gene Transport" scheme="http://yoursite.com/tags/Gene-Transport/"/>
+    
+  </entry>
+  
+  <entry>
     <title>First Step</title>
     <link href="http://yoursite.com/2020/03/18/First-Step/"/>
     <id>http://yoursite.com/2020/03/18/First-Step/</id>
     <published>2020-03-18T11:42:41.000Z</published>
-    <updated>2020-03-19T03:47:03.290Z</updated>
+    <updated>2020-03-21T03:15:04.736Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;想法&quot;&gt;&lt;a href=&quot;#想法&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;p&gt;I love you three thousand.&lt;/p&gt;
     
     </summary>
     
