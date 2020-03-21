@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>我和你</title>
+  <title>Aurora Song</title>
   <icon>https://www.gravatar.com/avatar/cb6c4bc01e2a81222488497a4e555eaa</icon>
   <subtitle>你和我</subtitle>
   <link href="/atom.xml" rel="self"/>
