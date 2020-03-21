@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-21T08:00:28.636Z</updated>
+  <updated>2020-03-21T13:47:27.052Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Movie Time!</title>
+    <link href="http://yoursite.com/2020/03/21/Movie-Time/"/>
+    <id>http://yoursite.com/2020/03/21/Movie-Time/</id>
+    <published>2020-03-21T13:22:27.000Z</published>
+    <updated>2020-03-21T13:47:27.052Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天&lt;strong&gt;第一次&lt;/strong&gt;和小朋友看了电影！电影名字是 &lt;strong&gt;&lt;em&gt;Level
+        
+      
+    
+    </summary>
+    
+    
+      <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
+    
+    
+      <category term="yxx&amp;sxh" scheme="http://yoursite.com/tags/yxx-sxh/"/>
+    
+  </entry>
   
   <entry>
     <title>Lentivirus</title>
