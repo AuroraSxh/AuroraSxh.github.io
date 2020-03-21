@@ -11,7 +11,7 @@
 <p>当病毒转导靶细胞时，释放到宿主细胞中的病毒RNA借助逆转录酶逆转录成双链DNA，然后随机整合进宿主细胞的基因组中。在病毒载体中，位于两个LTR的DNA片段和病毒基因组都会稳定整合到靶细胞的基因组中。</p>
 <h2 id="慢病毒结构"><a href="#慢病毒结构" class="headerlink" title="慢病毒结构"></a>慢病毒结构</h2><p>病毒结构蛋白gag、pol和env。gag基因编码病毒的核心蛋白如核衣壳蛋白（p7）、内膜蛋白（p17）和衣壳蛋白（p24）；pol基因编码病毒复制相关的酶；env基因编码病毒包膜糖蛋白。</p>
 <p>病毒调节蛋白rev,tat。rev主要参与蛋白调节的表达水平，tat参与蛋白转录的控制，与病毒的长末端重复序列（long terminal repeats, LTRS）结合后促进病毒的所有基因的转录。</p>
-<p>四个辅助蛋白，即vif、vpr、vpu、nef，帮助病毒包装完成<br><img src="1.jpeg" alt="慢病毒基因结构"></p>
+<p>四个辅助蛋白，即vif、vpr、vpu、nef，帮助病毒包装完成<br><img src="https://i.loli.net/2020/03/21/UYR6wkXyMfHFxDV.png" alt="慢病毒基因结构"></p>
 <h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>源基因的稳定整合</p>
 <p>滴度高</p>
 <p>宿主范围广泛</p>
@@ -19,7 +19,7 @@
 <p>安全性</p>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>载体容量有限制：大概只有６－７kb的可用序列长度</p>
 <p>技术比较复杂</p>
-<h1 id="四质粒慢病毒载体系统"><a href="#四质粒慢病毒载体系统" class="headerlink" title="四质粒慢病毒载体系统"></a>四质粒慢病毒载体系统</h1><p>这是第三代慢病毒载体系统。顾名思义其包含了四个质粒序列。四质粒系统主要是：pGag/Pol、pRev、pVSV-G，此外，还有一个可以放置目的基因序列的载体。这个体系产生活性病毒的可能被大大降低。(5′端LTR被替换成了CMV，3′端LTR被换成了SV40 ployA 这两个都是可以增强表达，减低病对人体毒危害性)<br>如下是一家公司的<em>pLenti CMV GFP Hygro</em>核心质粒序列，<a href="https://www.addgene.org/17446/" target="_blank" rel="noopener">相关网址在这里</a>。<br><img src="addgene-plasmid-17446-sequence-217981-map.png" alt="一个四质粒表达系统中的核心质粒（举个例子）"></p>
+<h1 id="四质粒慢病毒载体系统"><a href="#四质粒慢病毒载体系统" class="headerlink" title="四质粒慢病毒载体系统"></a>四质粒慢病毒载体系统</h1><p>这是第三代慢病毒载体系统。顾名思义其包含了四个质粒序列。四质粒系统主要是：pGag/Pol、pRev、pVSV-G，此外，还有一个可以放置目的基因序列的载体。这个体系产生活性病毒的可能被大大降低。(5′端LTR被替换成了CMV，3′端LTR被换成了SV40 ployA 这两个都是可以增强表达，减低病对人体毒危害性)<br>如下是一家公司的<em>pLenti CMV GFP Hygro</em>核心质粒序列，<a href="https://www.addgene.org/17446/" target="_blank" rel="noopener">相关网址在这里</a>。<br><img src="https://i.loli.net/2020/03/21/g7iAKf1B3ljrCTP.png" alt="一个四质粒表达系统中的核心质粒（举个例子）"></p>
 <h1 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h1><p>至于我们实验中具体用要到的慢病毒载体，现在有几点是比较明确的。</p>
 <ul>
 <li>使用的是第三代四质粒慢病毒转染载体</li>
