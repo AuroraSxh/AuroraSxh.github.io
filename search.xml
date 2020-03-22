@@ -31,7 +31,7 @@
 <li>基因拷贝数相对均一</li>
 <li>安全性<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3></li>
 <li>载体容量有限制：大概只有６－７kb的可用序列长度</li>
-<li>技术比较复杂<h1 id="四质粒慢病毒载体系统"><a href="#四质粒慢病毒载体系统" class="headerlink" title="四质粒慢病毒载体系统"></a>四质粒慢病毒载体系统</h1>这是第三代慢病毒载体系统。顾名思义其包含了四个质粒序列。四质粒系统主要是：pGag/Pol、pRev、pVSV-G，此外，还有一个可以放置目的基因序列的载体。这个体系产生活性病毒的可能被大大降低。(5′端LTR被替换成了CMV，3′端LTR被换成了SV40 ployA 这两个都是可以增强表达，减低病毒对人体危害性)<br>如下是一家公司的<em>pLenti CMV GFP Hygro</em>核心质粒序列，<a href="https://www.addgene.org/17446/" target="_blank" rel="noopener">相关网址在这里</a>。<br><img src="https://i.loli.net/2020/03/21/g7iAKf1B3ljrCTP.png" alt="一个四质粒表达系统中的核心质粒（举个例子）"></li>
+<li>技术比较复杂<h1 id="四质粒慢病毒载体系统"><a href="#四质粒慢病毒载体系统" class="headerlink" title="四质粒慢病毒载体系统"></a>四质粒慢病毒载体系统</h1>这是第三代慢病毒载体系统。顾名思义其包含了四个质粒序列。其可以将目标基因的<strong>cDNA</strong>序列转入靶细胞的基因组中。四质粒系统主要是：pGag/Pol、pRev、pVSV-G，此外，还有一个可以放置目的基因序列的载体。这个体系产生活性病毒的可能被大大降低。(5′端LTR被替换成了CMV，3′端LTR被换成了SV40 ployA 这两个都是可以增强表达，减低病毒对人体危害性)<br>如下是一家公司的<em>pLenti CMV GFP Hygro</em>核心质粒序列，<a href="https://www.addgene.org/17446/" target="_blank" rel="noopener">相关网址在这里</a>。<br><img src="https://i.loli.net/2020/03/21/g7iAKf1B3ljrCTP.png" alt="一个四质粒表达系统中的核心质粒（举个例子）"></li>
 </ul>
 <h1 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h1><p>至于我们实验中具体用要到的慢病毒载体，现在有几点是比较明确的。</p>
 <ul>
@@ -40,7 +40,7 @@
 <li>慢病毒一般需要BSL-2等级的实验室及相关受培训操作人员进行操作，所以我们应该只需要将质粒设计出来并验证。</li>
 <li>在查阅文献时有发现肝脏特异性靶向的四环素介导的白蛋白启动子调控的慢病毒载体，<a href="http://www.cnki.com.cn/Article/CJFDTotal-DYJZ201908008.htm" target="_blank" rel="noopener">相关论文见此</a>。可供参考。</li>
 </ul>
-<h2 id="个人建议"><a href="#个人建议" class="headerlink" title="个人建议"></a>个人建议</h2><p>在关注慢病毒载体同时分一点心看一下脂质体载体和裸质粒。</p>
+<h2 id="个人建议"><a href="#个人建议" class="headerlink" title="个人建议"></a>个人建议</h2><p>其实相对于设计质粒的工作来说，寻找合适的慢病毒载体工作非常简单。慢病毒载体的最核心部分其实是核心质粒的设计，对于四质粒转运系统来说似乎其他三个和慢病毒转染等相关的质粒差异并不是很大？虽然可以在关注慢病毒载体同时分一点心看一下脂质体载体和裸质粒，但既然我们是想做肝脏的长期给药系统的话，效率最高的似乎还是慢病毒转染。</p>
 ]]></content>
       <categories>
         <category>iGEM</category>
