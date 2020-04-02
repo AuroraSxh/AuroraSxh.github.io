@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-02T09:47:50.359Z</updated>
+  <updated>2020-04-02T09:50:31.387Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,21 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Tet-on System</title>
+    <link href="http://yoursite.com/2020/04/02/Tet-on-System/"/>
+    <id>http://yoursite.com/2020/04/02/Tet-on-System/</id>
+    <published>2020-04-02T09:50:31.000Z</published>
+    <updated>2020-04-02T09:50:31.387Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>Introduction to some lentiviral vectors</title>
     <link href="http://yoursite.com/2020/04/02/Introduction-to-some-lentiviral-vectors/"/>
     <id>http://yoursite.com/2020/04/02/Introduction-to-some-lentiviral-vectors/</id>
     <published>2020-04-02T07:08:45.000Z</published>
-    <updated>2020-04-02T09:47:50.359Z</updated>
+    <updated>2020-04-02T09:57:12.392Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;ViraPower™-HiPerform™-T‑REx™-Gateway™-Expression-System&quot;&gt;&lt;a href=&quot;#ViraPower™-HiPerform™-T‑REx™-Gateway™-Expression-System&quot;
-        
-      
+      &lt;p&gt;两家公司的四环素诱导目的基因表达的慢病毒载体的介绍&lt;/p&gt;
     
     </summary>
     
