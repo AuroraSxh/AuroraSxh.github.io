@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-21T13:47:27.052Z</updated>
+  <updated>2020-04-02T09:47:50.359Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Introduction to some lentiviral vectors</title>
+    <link href="http://yoursite.com/2020/04/02/Introduction-to-some-lentiviral-vectors/"/>
+    <id>http://yoursite.com/2020/04/02/Introduction-to-some-lentiviral-vectors/</id>
+    <published>2020-04-02T07:08:45.000Z</published>
+    <updated>2020-04-02T09:47:50.359Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;ViraPower™-HiPerform™-T‑REx™-Gateway™-Expression-System&quot;&gt;&lt;a href=&quot;#ViraPower™-HiPerform™-T‑REx™-Gateway™-Expression-System&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="iGEM" scheme="http://yoursite.com/categories/iGEM/"/>
+    
+    
+      <category term="Gene Transport" scheme="http://yoursite.com/tags/Gene-Transport/"/>
+    
+  </entry>
   
   <entry>
     <title>Movie Time!</title>
@@ -48,7 +75,7 @@
     <link href="http://yoursite.com/2020/03/21/Lentivirus/"/>
     <id>http://yoursite.com/2020/03/21/Lentivirus/</id>
     <published>2020-03-21T02:08:32.000Z</published>
-    <updated>2020-03-22T04:01:19.047Z</updated>
+    <updated>2020-03-22T09:01:54.998Z</updated>
     
     <summary type="html">
     
