@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Drosophila development</title>
-    <url>/2020/04/02/Drosophila-development/</url>
-    <content><![CDATA[<h1 id="果蝇身体的图式发育"><a href="#果蝇身体的图式发育" class="headerlink" title="果蝇身体的图式发育"></a>果蝇身体的图式发育</h1><h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    囊胚 --&gt; 胚胎;</span><br><span class="line">    胚胎 --&gt; 龄虫;</span><br><span class="line">    龄虫 --&gt; 幼虫;</span><br><span class="line">    幼虫 --&gt; 蛹;</span><br><span class="line">    蛹 --&gt; 成虫</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="果蝇早期胚胎是多核合胞体"><a href="#果蝇早期胚胎是多核合胞体" class="headerlink" title="果蝇早期胚胎是多核合胞体"></a>果蝇早期胚胎是多核合胞体</h3>]]></content>
-      <categories>
-        <category>Developmental Biology</category>
-      </categories>
-      <tags>
-        <tag>Drosophila development</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tet-on System</title>
     <url>/2020/04/02/Tet-on-System/</url>
     <content><![CDATA[<h1 id="Tet-on诱导表达系统的介绍"><a href="#Tet-on诱导表达系统的介绍" class="headerlink" title="Tet-on诱导表达系统的介绍"></a>Tet-on诱导表达系统的介绍</h1><a id="more"></a>

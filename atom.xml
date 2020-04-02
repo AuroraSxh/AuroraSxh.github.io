@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-02T13:55:17.650Z</updated>
+  <updated>2020-04-02T12:19:23.129Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,33 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Drosophila development</title>
-    <link href="http://yoursite.com/2020/04/02/Drosophila-development/"/>
-    <id>http://yoursite.com/2020/04/02/Drosophila-development/</id>
-    <published>2020-04-02T13:36:50.000Z</published>
-    <updated>2020-04-02T13:55:17.650Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;果蝇身体的图式发育&quot;&gt;&lt;a href=&quot;#果蝇身体的图式发育&quot; class=&quot;headerlink&quot; title=&quot;果蝇身体的图式发育&quot;&gt;&lt;/a&gt;果蝇身体的图式发育&lt;/h1&gt;&lt;h2 id=&quot;生命周期&quot;&gt;&lt;a href=&quot;#生命周期&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Developmental Biology" scheme="http://yoursite.com/categories/Developmental-Biology/"/>
-    
-    
-      <category term="Drosophila development" scheme="http://yoursite.com/tags/Drosophila-development/"/>
-    
-  </entry>
   
   <entry>
     <title>Tet-on System</title>
