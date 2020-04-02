@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-02T09:50:31.387Z</updated>
+  <updated>2020-04-02T12:19:23.129Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,13 +21,19 @@
     <link href="http://yoursite.com/2020/04/02/Tet-on-System/"/>
     <id>http://yoursite.com/2020/04/02/Tet-on-System/</id>
     <published>2020-04-02T09:50:31.000Z</published>
-    <updated>2020-04-02T09:50:31.387Z</updated>
+    <updated>2020-04-02T12:19:23.129Z</updated>
     
     <summary type="html">
+    
+      &lt;h1 id=&quot;Tet-on诱导表达系统的介绍&quot;&gt;&lt;a href=&quot;#Tet-on诱导表达系统的介绍&quot; class=&quot;headerlink&quot; title=&quot;Tet-on诱导表达系统的介绍&quot;&gt;&lt;/a&gt;Tet-on诱导表达系统的介绍&lt;/h1&gt;
     
     </summary>
     
     
+      <category term="iGEM" scheme="http://yoursite.com/categories/iGEM/"/>
+    
+    
+      <category term="Gene Transport" scheme="http://yoursite.com/tags/Gene-Transport/"/>
     
   </entry>
   

@@ -3,7 +3,29 @@
   <entry>
     <title>Tet-on System</title>
     <url>/2020/04/02/Tet-on-System/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="Tet-on诱导表达系统的介绍"><a href="#Tet-on诱导表达系统的介绍" class="headerlink" title="Tet-on诱导表达系统的介绍"></a>Tet-on诱导表达系统的介绍</h1><a id="more"></a>
+<h2 id="Tet-on-四环素诱导表达系统"><a href="#Tet-on-四环素诱导表达系统" class="headerlink" title="Tet-on 四环素诱导表达系统"></a>Tet-on 四环素诱导表达系统</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>Tet调控表达系统通过诱导药物（如Tet）改变调控蛋白的构象，从而达到调控目标蛋白表达的目的。</p>
+<p>最初的Tet调控基因表达系统是以大肠杆菌Tn10转座子上Tet抗性操纵子为基础而建立的。Tet阻遏蛋白（Tet repressor protein, TetR）与Tet操纵子（Tet operator, TetO）能够特异性结合。当细胞内无Tet存在时，Tet会与TetO结合，从而阻断下游抗性基因表达；当有Tet存在时，Tet使TetR构象发生改变，导致TetR与TetO分离，使下游抗性基因得以表达，细菌从而获得耐药性。<br><img src="https://i.loli.net/2020/04/02/2r3b9Qky5NlGF7H.png" alt="原理图"></p>
+<h3 id="Tet-on-调控系统"><a href="#Tet-on-调控系统" class="headerlink" title="Tet-on 调控系统"></a>Tet-on 调控系统</h3><p>利用TetR和TetO特异性结合的特点，多种类型的Tet调控系统逐渐发展起来。根据应用广泛的是Tet-on激活型系统。</p>
+<p>Tet-on系统由调节表达载体和反应表达载体组成。</p>
+<p>调节表达载体包含一个人巨细胞病毒早期启动子（PhCMV）和反义Tet转录活化因子（reverse tetracycline transcriptional activator，rtTA）。其中rtTA由反义TetR（reverse TetR, rTetR）和单纯疱疹病毒（HSV）VP16蛋白C端的一段转录激活区域融合而成。</p>
+<p>反应表达载体由Tet应答元件（Tet-responsive element, TRE）、最小CMV启动子（minimal CMV promoter, PminCMV）及目的基因组成。其中TRE是7个重复的TetO序列。</p>
+<p>由于PminCMV缺少增强子，因此rtTA未与TRE结合时，目的基因不表达；当rtTA与TRE结合时，VP16会使PminCMV活化从而使基因表达。</p>
+<p>在Dox不存在时，rTetR不能与TRE结合，导致基因表达被抑制；而当Dox存在时，rTetR能与TRE结合，进而使得目的基因表达。<br><img src="https://i.loli.net/2020/04/02/eEwQj94MLPvRWpO.png" alt="Tet-on系统原理图"></p>
+<p><em>当然还有Tet-off系统，原理相似，在此不多赘述</em></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li>Molin M, Shoshan MC, Ohman-Forslund K, Linder S, Akusjärvi G. Two novel adenovirus vector systems permitting regulated protein expression in gene transfer experiments. J Virol. 1998;72(10):8358–8361.</li>
+<li>Freundlieb, S., Schirra‐Müller, C. and Bujard, H. (1999), A tetracycline controlled activation/repression system with increased potential for gene transfer into mammalian cells. J. Gene Med., 1: 4-12. doi:10.1002/(SICI)1521-2254(199901/02)1:1&lt;4::AID-JGM4&gt;3.0.CO;2-Y</li>
+<li><a href="http://2013.igem.org/Team:Bielefeld_Germany/Biosafety/Biosafety_System_M" target="_blank" rel="noopener">http://2013.igem.org/Team:Bielefeld_Germany/Biosafety/Biosafety_System_M</a></li>
+<li><a href="http://2013.igem.org/Team:SYSU-China/Project/Design" target="_blank" rel="noopener">http://2013.igem.org/Team:SYSU-China/Project/Design</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>iGEM</category>
+      </categories>
+      <tags>
+        <tag>Gene Transport</tag>
+      </tags>
   </entry>
   <entry>
     <title>Introduction to some lentiviral vectors</title>
