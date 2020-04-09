@@ -70,6 +70,111 @@
     
     
     
+    <article id="post-Summary-of-the-WIKI-of-2017-CPU-iGEM-Team" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/09/Summary-of-the-WIKI-of-2017-CPU-iGEM-Team/"
+    >Summary of the WIKI of 2017-CPU-iGEM-Team</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/09/Summary-of-the-WIKI-of-2017-CPU-iGEM-Team/" class="article-date">
+  <time datetime="2020-04-09T10:35:22.000Z" itemprop="datePublished">2020-04-09</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iGEM/">iGEM</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>对中国药科大学2017年的iGEM项目进行介绍，这是<a href="http://2017.igem.org/Team:CPU_CHINA" target="_blank" rel="noopener">团队Wiki链接</a>。</p>
+<h1 id="人类工程化的抗自身免疫疾病调节性T细胞系统"><a href="#人类工程化的抗自身免疫疾病调节性T细胞系统" class="headerlink" title="人类工程化的抗自身免疫疾病调节性T细胞系统"></a>人类工程化的抗自身免疫疾病调节性T细胞系统</h1><hr>
+<h2 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h2><p><strong>类风湿 免疫抑制与平衡 嵌合抗原受体改造</strong></p>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>类风湿性关节炎伴随着局部免疫失衡，表现在Th17细胞过度活跃，IL6、IL17等促炎因子分泌提升，但Treg等抑炎细胞功能被抑制。</p>
+<p>CPU的团队设计了一个<strong>SynNotch</strong>系统，该系统包含修饰的Notch蛋白使得该蛋白能够在存在<strong>IL17A</strong>的炎症条件下<strong>特异性激活USP7的基因表达</strong>。USP7蛋白可以导致FOXP3蛋白去泛素化，从而通过保护FOXP3<strong>免受泛素化降解</strong>来增强FOXP3蛋白在炎症环境中的稳定性。因此，Treg细胞可以维持其免疫抑制功能。同时，我们设计了一个CAR系统，该系统可使Treg细胞靶向<strong>CD20 + B淋巴细胞</strong>，从而专门发挥免疫抑制功能，从而发挥抗炎作用。</p>
+<hr>
+<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>SynNotch接收来自Th17细胞分泌的IL17-A，剪切下Gal4-vp64复合体，Gal4-vp64进入细胞核促进USP7的转录，USP7保护FOXP3不被泛素化降解。同时CAR系统识别CD20+ B淋巴细胞（依靠B淋巴细胞<strong>特异性表达CD20</strong>)，通过常规的共刺激序列4-1BB增强Treg功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">酵母Gal4-UAS系统：Gal4蛋白可以特异性识别其基因组中的UAS序列。</span><br><span class="line"></span><br><span class="line">人工转录因子vp64:vp64是一种反式作用因子。在本项目中被连接在Gal4蛋白上，当Gal4蛋白与UAS序列结合后，vp64能促进跟</span><br><span class="line">的在UAS序列之后的USP7的转录。</span><br><span class="line"></span><br><span class="line">Notch系统：Notch蛋白是跨膜蛋白，可分为三个结构域：细胞外结构域，跨膜结构域和细胞内结构域。在其细胞内结构域内有一</span><br><span class="line">个切割位点，Notch蛋白将在刺激下被切割，从膜上释放其C端肽与下游蛋白结合并进行信号转导。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/04/09/CZQFdXoWKqUJah9.png" alt="U_G_3_GUBUHAK3WUIW7_YRD.png"></p>
+<p>![_8W0Y`1R6E6PCBI_MZYLAR6.png](<a href="https://i.loli.net/2020/04/09/7XJWNB8FctqSuoa.png" target="_blank" rel="noopener">https://i.loli.net/2020/04/09/7XJWNB8FctqSuoa.png</a>)</p>
+<hr>
+<h2 id="质粒载体系统"><a href="#质粒载体系统" class="headerlink" title="质粒载体系统"></a>质粒载体系统</h2><h3 id="SynNotch"><a href="#SynNotch" class="headerlink" title="SynNotch"></a><a href="http://parts.igem.org/Part:BBa_K2506001" target="_blank" rel="noopener">SynNotch</a></h3><p>SynNotch是一种能够在炎症环境中<strong>特异性激活USP7基因</strong>的表达，从而通过稳定FOXP3蛋白来维持Treg细胞的活性的系统。其构建的质粒载体大小为10699bp。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IL17RA:IL17的受体，能够特异性识别IL17；</span><br><span class="line"></span><br><span class="line">Notch1：Notch蛋白核心区，包括重复序列，异二聚化结构域和跨膜结构域。其在接受信号（本项目中为IL17)后被激活，对胞内末</span><br><span class="line">端蛋白序列进行切割；</span><br><span class="line"></span><br><span class="line">Gal4-vp64:如前所述。</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/09/riD2jtGZzV4N3X6.png" alt="质粒图谱1"></p>
+<h3 id="UUpromU"><a href="#UUpromU" class="headerlink" title="UUpromU"></a><a href="http://parts.igem.org/Part:BBa_K2506004" target="_blank" rel="noopener">UUpromU</a></h3><p>UUpromU是专门为SynNotch系统能特异性表达目标基因设计的系统。其由两个质粒组成</p>
+<h4 id="pcDNA-3-1"><a href="#pcDNA-3-1" class="headerlink" title="pcDNA 3.1(+)"></a>pcDNA 3.1(+)</h4><p>全长7005bp。携带两个UAS序列、USP7的启动子序列及USP7基因序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">实际上该团队是将UUpromU序列放入pcDNA 3.1(+)质粒中的。</span><br><span class="line"></span><br><span class="line">UAS序列：与前述vp64结合，促进USP7的高表达；</span><br><span class="line"></span><br><span class="line">USP7：保护FOXP3不被泛素化降解，从而保证Treg细胞的抑制炎症的作用。</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/09/oOCJr1vHblnscRW.png" alt="质粒图谱2"></p>
+<h3 id="CAR-Treg"><a href="#CAR-Treg" class="headerlink" title="CAR-Treg"></a><a href="http://parts.igem.org/Part:BBa_K2506002" target="_blank" rel="noopener">CAR-Treg</a></h3><p>CAR-CD20是使工程改造的T细胞能够特异性识别B淋巴细胞中的表面抗原CD20从而加强其抗炎功能的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CD20-ScFv：CD20蛋白的单链抗体。由CD20单克隆抗体的可变区序列构建。用于准确识别并结合B淋巴细胞表面抗原CD20；</span><br><span class="line"></span><br><span class="line">C-Myc tag：与目的蛋白一起表达地蛋白标签，便于目的蛋白的表达、检测、示踪和纯化等；</span><br><span class="line"></span><br><span class="line">4-1BB：共刺激信号；</span><br><span class="line"></span><br><span class="line">CD3Z:刺激信号。与4-1BB一起促进信号的高水平传递，从而更强地激活Treg细胞；</span><br><span class="line"></span><br><span class="line">mCherry：荧光蛋白，便于基因表达的检测。</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/09/Dm3hWCpwzAyJObK.png" alt="质粒图谱3"></p>
+<p><em>注：该项目组采用慢病毒和电转两种方式传递质粒，其实我没有很理解。电转质粒对细胞损伤大且入核率低，如何控制两种方式转染的细胞在相同环境下的目的基因表达量相似是一个值得思索的问题。</em></p>
+<hr>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><ul>
+<li>考虑改造T细胞的生存期问题</li>
+<li>考虑部分电转Treg细胞的转染效率问题</li>
+<li>类风湿关节炎病人Th17浓度升高是广泛的，其血清Th17浓度也升高了，考虑到这点，如何限定该团队设计的Treg细胞的作用范围就值得思索了。如果在全身触发较大规模的免疫抑制效应，其后果将是可怕的。</li>
+</ul>
+<hr>
+<h2 id="可借鉴之处"><a href="#可借鉴之处" class="headerlink" title="可借鉴之处"></a>可借鉴之处</h2><p>emmm似乎在实验设计和元件设计上没有什么值得借鉴的，他们的元件设计较为简单，没有复杂的逻辑电路，CMV启动子等也是比较常见的。还有一点让我奇怪的是他们的参考文献里由Tet-on系统但是他们的元件设计里没有体现，有点奇怪。</p>
+<p>但是值得我们提起注意的是，我们要选择合适的靶点进行设计，同时选择合适的刺激因素，兼顾表达量与特异性。同时应当使用各种手段控制元件的作用范围。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Project-Review/" rel="tag">Project Review</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Tet-on-System" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
