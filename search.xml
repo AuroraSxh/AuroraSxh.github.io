@@ -5,6 +5,7 @@
     <url>/2020/04/09/Summary-of-the-WIKI-of-2017-CPU-iGEM-Team/</url>
     <content><![CDATA[<p>对中国药科大学2017年的iGEM项目进行介绍，这是<a href="http://2017.igem.org/Team:CPU_CHINA" target="_blank" rel="noopener">团队Wiki链接</a>。</p>
 <a id="more"></a>
+
 <h1 id="人类工程化的抗自身免疫疾病调节性T细胞系统"><a href="#人类工程化的抗自身免疫疾病调节性T细胞系统" class="headerlink" title="人类工程化的抗自身免疫疾病调节性T细胞系统"></a>人类工程化的抗自身免疫疾病调节性T细胞系统</h1><hr>
 <h2 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h2><p><strong>类风湿 免疫抑制与平衡 嵌合抗原受体改造</strong></p>
 <hr>
@@ -20,7 +21,7 @@
 <h2 id="质粒载体系统"><a href="#质粒载体系统" class="headerlink" title="质粒载体系统"></a>质粒载体系统</h2><h3 id="SynNotch"><a href="#SynNotch" class="headerlink" title="SynNotch"></a><a href="http://parts.igem.org/Part:BBa_K2506001" target="_blank" rel="noopener">SynNotch</a></h3><p>SynNotch是一种能够在炎症环境中<strong>特异性激活USP7基因</strong>的表达，从而通过稳定FOXP3蛋白来维持Treg细胞的活性的系统。其构建的质粒载体大小为10699bp。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">IL17RA:IL17的受体，能够特异性识别IL17；</span><br><span class="line"></span><br><span class="line">Notch1：Notch蛋白核心区，包括重复序列，异二聚化结构域和跨膜结构域。其在接受信号（本项目中为IL17)后被激活，对胞内末</span><br><span class="line">端蛋白序列进行切割；</span><br><span class="line"></span><br><span class="line">Gal4-vp64:如前所述。</span><br></pre></td></tr></table></figure>
 <p><img src="https://i.loli.net/2020/04/09/riD2jtGZzV4N3X6.png" alt="质粒图谱1"></p>
-<h3 id="UUpromU"><a href="#UUpromU" class="headerlink" title="UUpromU"></a><a href="http://parts.igem.org/Part:BBa_K2506004" target="_blank" rel="noopener">UUpromU</a></h3><p>UUpromU是专门为SynNotch系统能特异性表达目标基因设计的系统。其由两个质粒组成</p>
+<h3 id="UUpromU"><a href="#UUpromU" class="headerlink" title="UUpromU"></a><a href="http://parts.igem.org/Part:BBa_K2506004" target="_blank" rel="noopener">UUpromU</a></h3><p>UUpromU是专门为SynNotch系统能特异性表达目标基因设计的系统。</p>
 <h4 id="pcDNA-3-1"><a href="#pcDNA-3-1" class="headerlink" title="pcDNA 3.1(+)"></a>pcDNA 3.1(+)</h4><p>全长7005bp。携带两个UAS序列、USP7的启动子序列及USP7基因序列。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">实际上该团队是将UUpromU序列放入pcDNA 3.1(+)质粒中的。</span><br><span class="line"></span><br><span class="line">UAS序列：与前述vp64结合，促进USP7的高表达；</span><br><span class="line"></span><br><span class="line">USP7：保护FOXP3不被泛素化降解，从而保证Treg细胞的抑制炎症的作用。</span><br></pre></td></tr></table></figure>
 <p><img src="https://i.loli.net/2020/04/09/oOCJr1vHblnscRW.png" alt="质粒图谱2"></p>
