@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-20T12:59:18.574Z</updated>
+  <updated>2020-05-20T13:08:16.430Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>520xixixi</title>
+    <link href="http://yoursite.com/2020/05/20/520xixixi/"/>
+    <id>http://yoursite.com/2020/05/20/520xixixi/</id>
+    <published>2020-05-20T13:02:29.000Z</published>
+    <updated>2020-05-20T13:08:16.430Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;520啦&quot;&gt;&lt;a href=&quot;#520啦&quot; class=&quot;headerlink&quot; title=&quot;520啦&quot;&gt;&lt;/a&gt;520啦&lt;/h1&gt;&lt;iframe name=&quot;music&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="小朋友和我" scheme="http://yoursite.com/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/"/>
+    
+    
+      <category term="yxx&amp;sxh" scheme="http://yoursite.com/tags/yxx-sxh/"/>
+    
+  </entry>
   
   <entry>
     <title>python_project(1)</title>
