@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="yxx&amp;sxh" />
+   
+  <meta name="description" content="不知道怎么描述但是现在是你和我的博客！" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    python_project(1) |  Aurora Song
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-python-project-1" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  python_project(1)
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/20/python-project-1/" class="article-date">
+  <time datetime="2020-05-20T12:18:12.000Z" itemprop="datePublished">2020-05-20</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.1k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">5分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="python大作业"><a href="#python大作业" class="headerlink" title="python大作业"></a>python大作业</h1><h2 id="新冠肺炎相关B站视频爬取及评论分析"><a href="#新冠肺炎相关B站视频爬取及评论分析" class="headerlink" title="新冠肺炎相关B站视频爬取及评论分析"></a>新冠肺炎相关B站视频爬取及评论分析</h2><h3 id="PART-Ⅰ"><a href="#PART-Ⅰ" class="headerlink" title="PART Ⅰ"></a>PART Ⅰ</h3><a id="more"></a>
+<h4 id="爬取新冠肺炎相关视频信息"><a href="#爬取新冠肺炎相关视频信息" class="headerlink" title="爬取新冠肺炎相关视频信息"></a>爬取新冠肺炎相关视频信息</h4><p>python大作业，我们小组计划搜集新冠肺炎相关BiliBili视频的评论，并针对评论进行中文语义情感分析、词频分析等基础分析。</p>
+<p>为了完成这项工作，我们首先需要爬取新冠肺炎相关的视频信息，包括视频标题、视频链接。</p>
+<p>首先进入搜索页面，键入“新冠肺炎”。为了减小后续工作量，我们在网页中直接勾选“最多点击”，使结果按照点击量排序。得到搜索结果如下图：</p>
+<p><img src="https://i.loli.net/2020/05/20/ECGm875vOazdIxZ.png" alt="M_`5_WS_4DL_88V_QGW6K`N.png"></p>
+<p>观察网站源代码，可见红色方框内的代码包含了我们所需要的视频标题与视频链接的信息。<br><img src="https://i.loli.net/2020/05/20/e7duBP1ShUM9mpy.png" alt="RZQVTH_45__C158@UIB_9_7.png"></p>
+<p>有了这些条件，就可以开始进行爬取了。</p>
+<h5 id="依赖包"><a href="#依赖包" class="headerlink" title="依赖包"></a>依赖包</h5><p>首先载入爬取所需要的包。因为B站有一定的反爬措施，所以需要<code>fake_useragent</code>来提供多个请求头信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests <span class="keyword">import</span> get</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br></pre></td></tr></table></figure>
+<h5 id="爬取"><a href="#爬取" class="headerlink" title="爬取"></a>爬取</h5><p>因为搜索结果不止一页，因此定义函数<code>get_url_list</code>来获取每一页的url，并返回为一个列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url_list</span><span class="params">(page)</span>:</span></span><br><span class="line">    <span class="comment">#page = int(input('输入页码：'))</span></span><br><span class="line">    url_list = []</span><br><span class="line">    j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt;= page:</span><br><span class="line">        url = <span class="string">"https://search.bilibili.com/video?keyword=%E6%96%B0%E5%86%A0%E8%82%BA%E7%82%8E&amp;order=click&amp;duration=0&amp;tids_1=0&amp;page="</span> + str(j)</span><br><span class="line">        url_list.append(url)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> url_list</span><br></pre></td></tr></table></figure>
+<p>获取了所有url的列表后，定义函数<code>open_url</code>和<code>get_Video</code>对网页进行爬取，并用<code>lxml</code>包对网页进行解析，获得所需视频信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open_url</span><span class="params">(url)</span>:</span></span><br><span class="line">    ua = UserAgent()</span><br><span class="line">    random_header = ua.chrome</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: random_header</span><br><span class="line">        &#125;</span><br><span class="line">    res = get(url, headers = headers)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_Video</span><span class="params">(res)</span>:</span></span><br><span class="line">    html = etree.HTML(res.text)</span><br><span class="line">    name = html.xpath(<span class="string">'//*[@class="video-item matrix"]/a/@title'</span>)</span><br><span class="line">    href = html.xpath(<span class="string">'//*[@class="video-item matrix"]/a/@href'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(href)):</span><br><span class="line">        href[i]=<span class="string">'https:'</span> + href[i]</span><br><span class="line">    <span class="keyword">return</span> name, href</span><br></pre></td></tr></table></figure>
+
+<h5 id="集成"><a href="#集成" class="headerlink" title="集成"></a>集成</h5><p>最后定义<code>main()</code>主函数，调用上述函数进行爬取，并将结果写入csv文件中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    page = int(input(<span class="string">'输入页码：'</span>))</span><br><span class="line">    <span class="comment">#url = 'https://search.bilibili.com/video?keyword=%E6%96%B0%E5%86%A0%E8%82%BA%E7%82%8E&amp;order=click&amp;duration=0&amp;tids_1=0&amp;page=&#123;&#125;'.format(str(j))</span></span><br><span class="line">    url_list = get_url_list(page)     </span><br><span class="line">    name_list = []</span><br><span class="line">    href_list = []</span><br><span class="line">    <span class="keyword">for</span> urls <span class="keyword">in</span> url_list:</span><br><span class="line">        res = open_url(urls)</span><br><span class="line">        name, href = get_Video(res)</span><br><span class="line">        name_list.extend(name)</span><br><span class="line">        href_list.extend(href)</span><br><span class="line">    video_info_df = pd.DataFrame(&#123;<span class="string">'name'</span>:name_list, <span class="string">'href'</span>:href_list&#125;)</span><br><span class="line">    video_info_df.to_csv(<span class="string">'./video_info.csv'</span>,encoding = <span class="string">'utf_8_sig'</span>,index = <span class="number">0</span>)    <span class="comment">#写入csv文件,不保留行索引</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="将bv号转换为av号"><a href="#将bv号转换为av号" class="headerlink" title="将bv号转换为av号"></a>将bv号转换为av号</h5><p>为了减轻工作量，我们采用调用B站API的形式爬取视频评论，而API中oid部分对应的是视频的av编号，而爬取的视频链接中呈现的是bv编号，因此，需要对其进行转换。<br>参考了教程：<a href="https://www.bilibili.com/video/BV1R7411y7kw" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1R7411y7kw</a><br>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bv_to_av</span><span class="params">(bv_num)</span>:</span></span><br><span class="line">    BvNo1 = bv_num[<span class="number">0</span>][<span class="number">2</span>:]</span><br><span class="line">    <span class="comment">#print(BvNo1)</span></span><br><span class="line">    keys = &#123;</span><br><span class="line">        <span class="string">'1'</span>:<span class="string">'13'</span>, <span class="string">'2'</span>:<span class="string">'12'</span>, <span class="string">'3'</span>:<span class="string">'46'</span>, <span class="string">'4'</span>:<span class="string">'31'</span>, <span class="string">'5'</span>:<span class="string">'43'</span>, <span class="string">'6'</span>:<span class="string">'18'</span>, <span class="string">'7'</span>:<span class="string">'40'</span>, <span class="string">'8'</span>:<span class="string">'28'</span>, <span class="string">'9'</span>:<span class="string">'5'</span>,</span><br><span class="line">        <span class="string">'A'</span>:<span class="string">'54'</span>, <span class="string">'B'</span>:<span class="string">'20'</span>, <span class="string">'C'</span>:<span class="string">'15'</span>, <span class="string">'D'</span>:<span class="string">'8'</span>, <span class="string">'E'</span>:<span class="string">'39'</span>, <span class="string">'F'</span>:<span class="string">'57'</span>, <span class="string">'G'</span>:<span class="string">'45'</span>, <span class="string">'H'</span>:<span class="string">'36'</span>, <span class="string">'J'</span>:<span class="string">'38'</span>, <span class="string">'K'</span>:<span class="string">'51'</span>, <span class="string">'L'</span>:<span class="string">'42'</span>, <span class="string">'M'</span>:<span class="string">'49'</span>, <span class="string">'N'</span>:<span class="string">'52'</span>, <span class="string">'P'</span>:<span class="string">'53'</span>, <span class="string">'Q'</span>:<span class="string">'7'</span>, <span class="string">'R'</span>:<span class="string">'4'</span>, <span class="string">'S'</span>:<span class="string">'9'</span>, <span class="string">'T'</span>:<span class="string">'50'</span>, <span class="string">'U'</span>:<span class="string">'10'</span>, <span class="string">'V'</span>:<span class="string">'44'</span>, <span class="string">'W'</span>:<span class="string">'34'</span>, <span class="string">'X'</span>:<span class="string">'6'</span>, <span class="string">'Y'</span>:<span class="string">'25'</span>, <span class="string">'Z'</span>:<span class="string">'1'</span>,</span><br><span class="line">        <span class="string">'a'</span>: <span class="string">'26'</span>, <span class="string">'b'</span>: <span class="string">'29'</span>, <span class="string">'c'</span>: <span class="string">'56'</span>, <span class="string">'d'</span>: <span class="string">'3'</span>, <span class="string">'e'</span>: <span class="string">'24'</span>, <span class="string">'f'</span>: <span class="string">'0'</span>, <span class="string">'g'</span>: <span class="string">'47'</span>, <span class="string">'h'</span>: <span class="string">'27'</span>, <span class="string">'i'</span>: <span class="string">'22'</span>, <span class="string">'j'</span>: <span class="string">'41'</span>, <span class="string">'k'</span>: <span class="string">'16'</span>, <span class="string">'m'</span>: <span class="string">'11'</span>, <span class="string">'n'</span>: <span class="string">'37'</span>, <span class="string">'o'</span>: <span class="string">'2'</span>,</span><br><span class="line">        <span class="string">'p'</span>: <span class="string">'35'</span>, <span class="string">'q'</span>: <span class="string">'21'</span>, <span class="string">'r'</span>: <span class="string">'17'</span>, <span class="string">'s'</span>: <span class="string">'33'</span>, <span class="string">'t'</span>: <span class="string">'30'</span>, <span class="string">'u'</span>: <span class="string">'48'</span>, <span class="string">'v'</span>: <span class="string">'23'</span>, <span class="string">'w'</span>: <span class="string">'55'</span>, <span class="string">'x'</span>: <span class="string">'32'</span>, <span class="string">'y'</span>: <span class="string">'14'</span>,<span class="string">'z'</span>:<span class="string">'19'</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># 2. 将key对应的value存入一个列表</span></span><br><span class="line">    BvNo2 = []</span><br><span class="line">    <span class="keyword">for</span> index, ch <span class="keyword">in</span> enumerate(BvNo1):</span><br><span class="line">        BvNo2.append(int(str(keys[ch])))</span><br><span class="line">    <span class="comment"># 3. 对列表中不同位置的数进行*58的x次方的操作</span></span><br><span class="line">    BvNo2[<span class="number">0</span>] = int(BvNo2[<span class="number">0</span>] * math.pow(<span class="number">58</span>, <span class="number">6</span>));</span><br><span class="line">    BvNo2[<span class="number">1</span>] = int(BvNo2[<span class="number">1</span>] * math.pow(<span class="number">58</span>, <span class="number">2</span>));</span><br><span class="line">    BvNo2[<span class="number">2</span>] = int(BvNo2[<span class="number">2</span>] * math.pow(<span class="number">58</span>, <span class="number">4</span>));</span><br><span class="line">    BvNo2[<span class="number">3</span>] = int(BvNo2[<span class="number">3</span>] * math.pow(<span class="number">58</span>, <span class="number">8</span>));</span><br><span class="line">    BvNo2[<span class="number">4</span>] = int(BvNo2[<span class="number">4</span>] * math.pow(<span class="number">58</span>, <span class="number">5</span>));</span><br><span class="line">    BvNo2[<span class="number">5</span>] = int(BvNo2[<span class="number">5</span>] * math.pow(<span class="number">58</span>, <span class="number">9</span>));</span><br><span class="line">    BvNo2[<span class="number">6</span>] = int(BvNo2[<span class="number">6</span>] * math.pow(<span class="number">58</span>, <span class="number">3</span>));</span><br><span class="line">    BvNo2[<span class="number">7</span>] = int(BvNo2[<span class="number">7</span>] * math.pow(<span class="number">58</span>, <span class="number">7</span>));</span><br><span class="line">    BvNo2[<span class="number">8</span>] = int(BvNo2[<span class="number">8</span>] * math.pow(<span class="number">58</span>, <span class="number">1</span>));</span><br><span class="line">    BvNo2[<span class="number">9</span>] = int(BvNo2[<span class="number">9</span>] * math.pow(<span class="number">58</span>, <span class="number">0</span>));</span><br><span class="line">    <span class="comment"># 4.求出这10个数的合</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> BvNo2:</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="comment"># 5. 将和减去100618342136696320</span></span><br><span class="line">    sum -= <span class="number">100618342136696320</span></span><br><span class="line">    <span class="comment"># 6. 将sum 与177451812进行异或</span></span><br><span class="line">    temp = <span class="number">177451812</span></span><br><span class="line">    av = sum ^ temp</span><br><span class="line">    <span class="keyword">return</span> av</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    file = pd.read_csv(<span class="string">'video_info.csv'</span>)</span><br><span class="line">    video_info_df = pd.DataFrame(file)</span><br><span class="line"></span><br><span class="line">    av_list = [] </span><br><span class="line">    <span class="keyword">for</span> urls <span class="keyword">in</span> video_info_df[<span class="string">'href'</span>]:</span><br><span class="line">        bv = re.compile(<span class="string">'(BV.*)\?'</span>)</span><br><span class="line">        bv_num = bv.findall(urls)</span><br><span class="line">        av = bv_to_av(bv_num)</span><br><span class="line">        av_list.append(str(av))</span><br><span class="line">    <span class="comment">#print(av_list)</span></span><br><span class="line">    video_info_df[<span class="string">'av_oid'</span>] = av_list</span><br><span class="line">    video_info_df.to_csv(<span class="string">"./video_info.csv"</span>,encoding = <span class="string">'utf_8_sig'</span>,index = <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>剩余任务还有，视频评论的爬取，评论词频分析、中文语义分析。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/20/python-project-1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/04/09/Summary-of-the-WIKI-of-2017-CPU-iGEM-Team/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Summary of the WIKI of 2017-CPU-iGEM-Team</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Xiaohan Song
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo1.jpg" alt="Aurora Song"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/">小朋友和我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['遇见你是我最大的幸运','余生请多指教',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>

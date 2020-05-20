@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-10T00:40:07.408Z</updated>
+  <updated>2020-05-20T12:56:18.995Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python_project(1)</title>
+    <link href="http://yoursite.com/2020/05/20/python-project-1/"/>
+    <id>http://yoursite.com/2020/05/20/python-project-1/</id>
+    <published>2020-05-20T12:18:12.000Z</published>
+    <updated>2020-05-20T12:56:18.995Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;python大作业&quot;&gt;&lt;a href=&quot;#python大作业&quot; class=&quot;headerlink&quot; title=&quot;python大作业&quot;&gt;&lt;/a&gt;python大作业&lt;/h1&gt;&lt;h2 id=&quot;新冠肺炎相关B站视频爬取及评论分析&quot;&gt;&lt;a href=&quot;#新冠肺炎相关B站视频爬取及评论分析&quot; class=&quot;headerlink&quot; title=&quot;新冠肺炎相关B站视频爬取及评论分析&quot;&gt;&lt;/a&gt;新冠肺炎相关B站视频爬取及评论分析&lt;/h2&gt;&lt;h3 id=&quot;PART-Ⅰ&quot;&gt;&lt;a href=&quot;#PART-Ⅰ&quot; class=&quot;headerlink&quot; title=&quot;PART Ⅰ&quot;&gt;&lt;/a&gt;PART Ⅰ&lt;/h3&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>Summary of the WIKI of 2017-CPU-iGEM-Team</title>
