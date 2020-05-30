@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.1k字</span>
+            <span class="post-count">2.2k字</span>
         </span>
     </span>
 
@@ -126,23 +126,23 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_ndge_plot</span><span class="params">(word_list,color_series,final_path)</span>:</span>    </span><br><span class="line">    <span class="comment"># 实例化Pie类</span></span><br><span class="line">    pie1 = Pie(init_opts=opts.InitOpts(width=<span class="string">'1350px'</span>, height=<span class="string">'750px'</span>,theme=ThemeType.WESTEROS))</span><br><span class="line">    <span class="comment"># 设置颜色</span></span><br><span class="line">    pie1.set_colors(color_series)</span><br><span class="line"></span><br><span class="line">    pie1.add(<span class="string">""</span>, word_list,</span><br><span class="line">            radius=[<span class="string">"20%"</span>, <span class="string">"100%"</span>],</span><br><span class="line">            center=[<span class="string">"30%"</span>, <span class="string">"65%"</span>],</span><br><span class="line">            rosetype=<span class="string">"area"</span></span><br><span class="line">            ) </span><br><span class="line"></span><br><span class="line">    pie1.set_global_opts(title_opts=opts.TitleOpts(title=<span class="string">'test'</span>),</span><br><span class="line">                         legend_opts=opts.LegendOpts(is_show=<span class="literal">False</span>),</span><br><span class="line">                         toolbox_opts=opts.ToolboxOpts())</span><br><span class="line">    <span class="comment"># 设置系列配置项</span></span><br><span class="line">    pie1.set_series_opts(label_opts=opts.LabelOpts(is_show=<span class="literal">True</span>, position=<span class="string">"inside"</span>, font_size=<span class="number">12</span>,formatter=<span class="string">"&#123;b&#125;:&#123;c&#125;"</span>, font_style=<span class="string">"italic"</span>,font_weight=<span class="string">"bold"</span>, font_family=<span class="string">"Microsoft YaHei"</span>),)</span><br><span class="line">    <span class="comment"># 生成html文档</span></span><br><span class="line">    pie1.render(final_path)</span><br></pre></td></tr></table></figure>
 <p>主程序调用函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    file = pd.read_csv(<span class="string">'./comments.csv'</span>)</span><br><span class="line">    color_series = [<span class="string">'#C9DA36'</span>,<span class="string">'#9ECB3C'</span>,<span class="string">'#6DBC49'</span>,</span><br><span class="line">                        <span class="string">'#37B44E'</span>,<span class="string">'#3DBA78'</span>,<span class="string">'#14ADCF'</span>,<span class="string">'#209AC9'</span>,<span class="string">'#1E91CA'</span>,</span><br><span class="line">                        <span class="string">'#2C6BA0'</span>,<span class="string">'#2B55A1'</span>,<span class="string">'#2D3D8E'</span>,<span class="string">'#44388E'</span>,<span class="string">'#6A368B'</span>,</span><br><span class="line">                        <span class="string">'#7D3990'</span>,<span class="string">'#A63F98'</span>,<span class="string">'#C31C88'</span>,<span class="string">'#D52178'</span>,<span class="string">'#D5225B'</span>,</span><br><span class="line">                        <span class="string">'#D02C2A'</span>,<span class="string">'#D44C2D'</span>,<span class="string">'#F57A34'</span>,<span class="string">'#FA8F2F'</span>,<span class="string">'#D99D21'</span>,</span><br><span class="line">                        <span class="string">'#CF7B25'</span>,<span class="string">'#CF7B25'</span>,<span class="string">'#CF7B25'</span>]</span><br><span class="line">    get_comments(path = <span class="string">'./video_comments'</span>)</span><br><span class="line">    split_words(file = file ,result_file_path = <span class="string">'./results1.csv'</span>)</span><br><span class="line">    draw_word_cloud(raw_file_path = <span class="string">'./results1.csv'</span>,raw_image_path = <span class="string">'./unlogo.jpg'</span>,font_path_= <span class="string">'./Deng.ttf'</span>,save_image_path = <span class="string">'wordcloud2.png'</span>)</span><br><span class="line">    </span><br><span class="line">    noun_list = pick_top10_noun(raw_file_path = <span class="string">'./results1.csv'</span>)</span><br><span class="line">    draw_ndge_plot(word_list = noun_list,color_series = color_series,final_path = <span class="string">'./figures/test2.html'</span>)</span><br></pre></td></tr></table></figure>
-
-
-
+<p>词云绘制结果如下。<br><img src="https://i.loli.net/2020/05/30/njce8LlwYpdMCZv.png" alt="wordcloud2.png"></p>
+<p>下面是南丁格尔玫瑰图的展示。其展现了评论出现次数最高的10个名词。</p>
 <html><head>
     <meta charset="UTF-8">
     <title>Awesome-pyecharts</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
             <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+        <script type="text/javascript" src="https://assets.pyecharts.org/assets/themes/westeros.js"></script>
 
 <link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
 </head>
 <body>
-    <div id="7f06e3e175bb4c94bab381a2fc39d339" class="chart-container" style="width: 1350px; height: 750px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" _echarts_instance_="ec_1590800050033"><div style="position: relative; overflow: hidden; width: 1350px; height: 750px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="1687" height="937" style="position: absolute; left: 0px; top: 0px; width: 1350px; height: 750px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 5px; left: 642px; top: 245px; pointer-events: none;"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#2B55A1;"></span>美国: 25,589</div></div>
+    <div id="bc1ae288e912451483f3b9d7a69f0d91" class="chart-container" style="width: 750px; height: 750px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" _echarts_instance_="ec_1590812226757"><div style="position: relative; overflow: hidden; width: 750px; height: 750px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="937" height="937" style="position: absolute; left: 0px; top: 0px; width: 750px; height: 750px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 5px; left: 517px; top: 408px; pointer-events: none;"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#9ECB3C;"></span>美国: 25,589</div></div>
     <script>
-        var chart_7f06e3e175bb4c94bab381a2fc39d339 = echarts.init(
-            document.getElementById('7f06e3e175bb4c94bab381a2fc39d339'), 'white', {renderer: 'canvas'});
-        var option_7f06e3e175bb4c94bab381a2fc39d339 = {
+        var chart_bc1ae288e912451483f3b9d7a69f0d91 = echarts.init(
+            document.getElementById('bc1ae288e912451483f3b9d7a69f0d91'), 'westeros', {renderer: 'canvas'});
+        var option_bc1ae288e912451483f3b9d7a69f0d91 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -151,18 +151,6 @@
     "animationDurationUpdate": 300,
     "animationEasingUpdate": "cubicOut",
     "animationDelayUpdate": 0,
-    "color": [
-        "#2C6BA0",
-        "#2B55A1",
-        "#2D3D8E",
-        "#44388E",
-        "#6A368B",
-        "#7D3990",
-        "#A63F98",
-        "#C31C88",
-        "#D52178",
-        "#D5225B"
-    ],
     "series": [
         {
             "type": "pie",
@@ -270,6 +258,34 @@
         },
         "borderWidth": 0
     },
+    "color": [
+        "#C9DA36",
+        "#9ECB3C",
+        "#6DBC49",
+        "#37B44E",
+        "#3DBA78",
+        "#14ADCF",
+        "#209AC9",
+        "#1E91CA",
+        "#2C6BA0",
+        "#2B55A1",
+        "#2D3D8E",
+        "#44388E",
+        "#6A368B",
+        "#7D3990",
+        "#A63F98",
+        "#C31C88",
+        "#D52178",
+        "#D5225B",
+        "#D02C2A",
+        "#D44C2D",
+        "#F57A34",
+        "#FA8F2F",
+        "#D99D21",
+        "#CF7B25",
+        "#CF7B25",
+        "#CF7B25"
+    ],
     "title": [
         {
             "text": "test",
@@ -350,11 +366,14 @@
         }
     }
 };
-        chart_7f06e3e175bb4c94bab381a2fc39d339.setOption(option_7f06e3e175bb4c94bab381a2fc39d339);
+        chart_bc1ae288e912451483f3b9d7a69f0d91.setOption(option_bc1ae288e912451483f3b9d7a69f0d91);
     </script>
 
 
 </body></html>
+
+<p>至此词频分析及初阶情感分析告一段落。还需进行更深入的情感分析。</p>
+
       
       <!-- reward -->
       
