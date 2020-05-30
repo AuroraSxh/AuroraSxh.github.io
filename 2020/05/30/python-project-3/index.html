@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="yxx&amp;sxh" />
+   
+  <meta name="description" content="不知道怎么描述但是现在是你和我的博客！" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    python_project(3) |  Aurora Song
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-python-project-3" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  python_project(3)
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/30/python-project-3/" class="article-date">
+  <time datetime="2020-05-30T13:29:08.000Z" itemprop="datePublished">2020-05-30</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.8k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="python大作业"><a href="#python大作业" class="headerlink" title="python大作业"></a>python大作业</h1><h2 id="新冠肺炎相关B站视频爬取及评论分析"><a href="#新冠肺炎相关B站视频爬取及评论分析" class="headerlink" title="新冠肺炎相关B站视频爬取及评论分析"></a>新冠肺炎相关B站视频爬取及评论分析</h2><h3 id="PART-Ⅲ"><a href="#PART-Ⅲ" class="headerlink" title="PART Ⅲ"></a>PART Ⅲ</h3><a id="more"></a>
+<h4 id="LDA分析"><a href="#LDA分析" class="headerlink" title="LDA分析"></a>LDA分析</h4><p>LDA是一种文档主题生成模型，包含词、主题和文档三层结构。</p>
+<ol>
+<li>主题模型在自然语言处理等领域是用来在一系列文档中发现抽象主题的一种统计模型。判断两个文档相似性的传统方法是通过查看两个文档共同出现的单词的多少，如TF（词频）、TF-IDF（词频—逆向文档频率）等，这种方法没有考虑文字背后的语义关联，例如，两个文档共同出现的单词很少甚至没有，但两个文档是相似的，因此在判断文档相似性时，需要使用主题模型进行语义分析并判断文档相似性。如果一篇文档有多个主题，则一些特定的可代表不同主题的词语就会反复出现，此时，运用主题模型，能够发现文本中使用词语的规律，并且把规律相似的文本联系到一起，以寻求非结构化的文本集中的有用信息。例如，在美的电热水器的商品评论文本数据中，代表电热水器特征的词语如“安装”“出水量”“服务”等会频繁地出现在评论中，运用主题模型，把热水器代表性特征相关的情感描述性词语与对应特征的词语联系起来，从而深入了解用户对电热水器的关注点及用户对于某一特征的情感倾向</li>
+</ol>
+<ol start="2">
+<li>LDA主题模型潜在狄利克雷分配，即LDA模型（Latent Dirichlet Allocation，LDA）是由Blei等人在2003年提出的生成式主题模型。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多项式分布。LDA模型也被称为3层贝叶斯概率模型，包含文档（d）、主题（z）、词（w）3层结构，能够有效对文本进行建模，和传统的空间向量模型（VSM）相比，增加了概率的信息。通过LDA主题模型，能够挖掘数据集中的潜在主题，进而分析数据集的集中关注点及其相关特征词。LDA模型采用词袋模型（Bag of Words，BOW）将每一篇文档视为一个词频向量，从而将文本信息转化为易于建模的数字信息。定义词表大小为L，一个L维向量（1，0，0，…，0，0）表示一个词。由N个词构成的评论记为d=（w1，w2，…，wN）。假设某一商品的评论集D由M篇评论构成，记为D=（d1，d2，…，dM）。M篇评论分布着K个主题，记为Zi=（i=1，2，…，K）。记a和b为狄利克雷函数的先验参数，q为主题在文档中的多项分布的参数，其服从超参数为a的Dirichlet先验分布，f为词在主题中的多项分布的参数，其服从超参数b的Dirichlet先验分布。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> matplotlib.font_manager <span class="keyword">import</span> FontProperties</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> corpora, models</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 载入情感分析后的数据</span></span><br><span class="line">data = pd.read_csv(<span class="string">"./results1.csv"</span>, encoding = <span class="string">'utf-8'</span>)</span><br><span class="line">posdata = data[data[<span class="string">'content_type'</span>] == <span class="number">1</span>]</span><br><span class="line">negdata = data[data[<span class="string">'content_type'</span>] == <span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立词典</span></span><br><span class="line">pos_dict = corpora.Dictionary([[i] <span class="keyword">for</span> i <span class="keyword">in</span> posdata[<span class="string">'word'</span>]])  <span class="comment"># 正面</span></span><br><span class="line">neg_dict = corpora.Dictionary([[i] <span class="keyword">for</span> i <span class="keyword">in</span> negdata[<span class="string">'word'</span>]])  <span class="comment"># 负面</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立语料库</span></span><br><span class="line">pos_corpus = [pos_dict.doc2bow(j) <span class="keyword">for</span> j <span class="keyword">in</span> [[i] <span class="keyword">for</span> i <span class="keyword">in</span> posdata[<span class="string">'word'</span>]]]  <span class="comment"># 正面</span></span><br><span class="line">neg_corpus = [neg_dict.doc2bow(j) <span class="keyword">for</span> j <span class="keyword">in</span> [[i] <span class="keyword">for</span> i <span class="keyword">in</span> negdata[<span class="string">'word'</span>]]]   <span class="comment"># 负面</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="主题数寻优"><a href="#主题数寻优" class="headerlink" title="主题数寻优"></a>主题数寻优</h4><p>基于相似度的自适应最优LDA模型选择方法，确定主题数并进行主题分析。实验证明该方法可以在不需要人工调试主题数目的情况下，用相对少的迭代找到最优的主题结构。</p>
+<p>具体步骤如下：</p>
+<ol>
+<li>取初始主题数k值，得到初始模型，计算各主题之间的相似度（平均余弦距离）。</li>
+<li>增加或减少k值，重新训练模型，再次计算各主题之间的相似度。</li>
+<li>重复步骤2直到得到最优k值。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主题数寻优</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lda_k</span><span class="params">(x_corpus, x_dict)</span>:</span>  </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 初始化平均余弦相似度</span></span><br><span class="line">    mean_similarity = []</span><br><span class="line">    mean_similarity.append(<span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 循环生成主题并计算主题间相似度</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> np.arange(<span class="number">2</span>,<span class="number">11</span>):</span><br><span class="line">        <span class="comment"># LDA模型训练</span></span><br><span class="line">        lda = models.LdaModel(x_corpus, num_topics = i, id2word = x_dict)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> np.arange(i):</span><br><span class="line">            term = lda.show_topics(num_words = <span class="number">50</span>)</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># 提取各主题词</span></span><br><span class="line">        top_word = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> np.arange(i):</span><br><span class="line">            top_word.append([<span class="string">''</span>.join(re.findall(<span class="string">'"(.*)"'</span>,i)) \</span><br><span class="line">                             <span class="keyword">for</span> i <span class="keyword">in</span> term[k][<span class="number">1</span>].split(<span class="string">'+'</span>)])  <span class="comment"># 列出所有词</span></span><br><span class="line">           </span><br><span class="line">        <span class="comment"># 构造词频向量</span></span><br><span class="line">        word = sum(top_word,[])  <span class="comment"># 列出所有的词   </span></span><br><span class="line">        unique_word = set(word)  <span class="comment"># 去除重复的词</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 构造主题词列表，行表示主题号，列表示各主题词</span></span><br><span class="line">        mat = []</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> np.arange(i):</span><br><span class="line">            top_w = top_word[j]</span><br><span class="line">            mat.append(tuple([top_w.count(k) <span class="keyword">for</span> k <span class="keyword">in</span> unique_word]))  </span><br><span class="line">            </span><br><span class="line">        p = list(itertools.permutations(list(np.arange(i)),<span class="number">2</span>))</span><br><span class="line">        l = len(p)</span><br><span class="line">        top_similarity = [<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> np.arange(l):</span><br><span class="line">            vector1 = mat[p[w][<span class="number">0</span>]]</span><br><span class="line">            vector2 = mat[p[w][<span class="number">1</span>]]</span><br><span class="line">            top_similarity.append(cos(vector1, vector2))</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># 计算平均余弦相似度</span></span><br><span class="line">        mean_similarity.append(sum(top_similarity)/l)</span><br><span class="line">    <span class="keyword">return</span>(mean_similarity)</span><br><span class="line"></span><br><span class="line">pos_k = lda_k(pos_corpus, pos_dict)</span><br><span class="line">neg_k = lda_k(neg_corpus, neg_dict)</span><br><span class="line"></span><br><span class="line">font = FontProperties(size=<span class="number">14</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.rcParams[<span class="string">'font.sans-serif'</span>] = [<span class="string">'KaiTi'</span>] <span class="comment"># 指定默认字体</span></span><br><span class="line">plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="literal">False</span> <span class="comment"># 解决保存图像是负号'-'显示为方块的问题</span></span><br><span class="line"></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">10</span>,<span class="number">8</span>))</span><br><span class="line">ax1 = fig.add_subplot(<span class="number">211</span>)</span><br><span class="line">ax1.plot(pos_k)</span><br><span class="line">ax1.set_xlabel(<span class="string">'正面评论LDA主题数寻优'</span>, fontproperties=font)</span><br><span class="line"></span><br><span class="line">ax2 = fig.add_subplot(<span class="number">212</span>)</span><br><span class="line">ax2.plot(neg_k)</span><br><span class="line">ax2.set_xlabel(<span class="string">'负面评论LDA主题数寻优'</span>, fontproperties=font)</span><br></pre></td></tr></table></figure>
+<p>得到如图所示的结果：<br><img src="https://i.loli.net/2020/05/30/QWDiz9lpAw6Vats.png" alt="QGQ_I_WWI11_RU27P665AIP.png"></p>
+<h4 id="评价主题分析结果"><a href="#评价主题分析结果" class="headerlink" title="评价主题分析结果"></a>评价主题分析结果</h4><p>根据主题数寻优结果，使用Python的Gensim模块对正面评论数据和负面评论数据分别构建LDA主题模型，设置主题数为3，经过LDA主题分析后，每个主题下生成10个最有可能出现的词语以及相应的概率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pos_lda = models.LdaModel(pos_corpus, num_topics = <span class="number">3</span>, id2word = pos_dict)  </span><br><span class="line">neg_lda = models.LdaModel(neg_corpus, num_topics = <span class="number">3</span>, id2word = neg_dict)</span><br><span class="line"></span><br><span class="line">pos_lda.print_topics(num_words = <span class="number">10</span>)</span><br><span class="line">neg_lda.print_topics(num_words = <span class="number">10</span>)</span><br><span class="line"><span class="keyword">import</span> pyLDAvis</span><br><span class="line"><span class="keyword">from</span> pyLDAvis <span class="keyword">import</span> gensim</span><br><span class="line"></span><br><span class="line">vis = pyLDAvis.gensim.prepare(pos_lda,pos_corpus,pos_dict)</span><br><span class="line"><span class="comment"># 需要的三个参数都可以从硬盘读取的，前面已经存储下来了</span></span><br><span class="line">print(<span class="string">'done'</span>)</span><br><span class="line"><span class="comment"># 在浏览器中心打开一个界面</span></span><br><span class="line">pyLDAvis.show(vis)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在notebook的output cell中显示</span></span><br><span class="line"><span class="comment">#pyLDAvis.display(vis)</span></span><br></pre></td></tr></table></figure>
+<p>针对负面评论的分析和上面步骤一致：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vis = pyLDAvis.gensim.prepare(neg_lda,neg_corpus,neg_dict)</span><br><span class="line"><span class="comment"># 需要的三个参数都可以从硬盘读取的，前面已经存储下来了</span></span><br><span class="line">print(<span class="string">'done'</span>)</span><br><span class="line"><span class="comment"># 在浏览器中心打开一个界面</span></span><br><span class="line">pyLDAvis.show(vis)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在notebook的output cell中显示</span></span><br><span class="line"><span class="comment">#pyLDAvis.display(vis)</span></span><br></pre></td></tr></table></figure>
+<p>结果如下图所示。<br><img src="https://i.loli.net/2020/05/30/T3yFIjs5MVU7aJv.png" alt="NI2LLLZ_Y_@A4QF@XDY9_FB.png"></p>
+<p>可以发现，出现了一些误被分词的流行词如“川建国”等。这个问题在于<a href="https://aurorasxh.github.io/2020/05/30/python-project-2/" target="_blank" rel="noopener">python大作业partⅡ</a>中的<code>jiaba</code>分词过程中的误差。由此也可判单<code>jiaba</code>分词对于流行词与部分过于口语化的词的分词效果的不足。</p>
+<p>接下来还有语义情感的进一步分析。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/30/python-project-3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/05/30/python-project-2/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">python_project(2)</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Xiaohan Song
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo1.jpg" alt="Aurora Song"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories/%E5%B0%8F%E6%9C%8B%E5%8F%8B%E5%92%8C%E6%88%91/">小朋友和我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['遇见你是我最大的幸运','余生请多指教',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
