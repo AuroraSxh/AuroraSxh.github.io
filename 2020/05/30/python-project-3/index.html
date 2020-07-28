@@ -125,6 +125,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vis = pyLDAvis.gensim.prepare(neg_lda,neg_corpus,neg_dict)</span><br><span class="line"><span class="comment"># 需要的三个参数都可以从硬盘读取的，前面已经存储下来了</span></span><br><span class="line">print(<span class="string">'done'</span>)</span><br><span class="line"><span class="comment"># 在浏览器中心打开一个界面</span></span><br><span class="line">pyLDAvis.show(vis)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在notebook的output cell中显示</span></span><br><span class="line"><span class="comment">#pyLDAvis.display(vis)</span></span><br></pre></td></tr></table></figure>
 <p>结果如下图所示。<br><img src="https://i.loli.net/2020/05/30/T3yFIjs5MVU7aJv.png" alt="NI2LLLZ_Y_@A4QF@XDY9_FB.png"></p>
 <p>可以发现，出现了一些误被分词的流行词如“川建国”等。这个问题在于<a href="https://aurorasxh.github.io/2020/05/30/python-project-2/" target="_blank" rel="noopener">python大作业partⅡ</a>中的<code>jiaba</code>分词过程中的误差。由此也可判单<code>jiaba</code>分词对于流行词与部分过于口语化的词的分词效果的不足。</p>
+<p>LDA分析部分参考了<a href="https://www.kesci.com/home/project/5ead7455366f4d002d745eb0/code" target="_blank" rel="noopener">该网站</a></p>
 <p>接下来还有语义情感的进一步分析。</p>
 
       
@@ -208,6 +209,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/07/28/python-review/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            python_review
+          
+        </div>
+      </a>
     
     
       <a href="/2020/05/30/python-project-2/" class="article-nav-link">

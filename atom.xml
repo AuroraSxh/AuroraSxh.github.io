@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-30T13:54:04.897Z</updated>
+  <updated>2020-07-28T12:13:11.654Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>python_review</title>
+    <link href="http://yoursite.com/2020/07/28/python-review/"/>
+    <id>http://yoursite.com/2020/07/28/python-review/</id>
+    <published>2020-07-28T12:09:51.000Z</published>
+    <updated>2020-07-28T12:13:11.654Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;python-复习&quot;&gt;&lt;a href=&quot;#python-复习&quot; class=&quot;headerlink&quot; title=&quot;python 复习&quot;&gt;&lt;/a&gt;python 复习&lt;/h1&gt;&lt;h2 id=&quot;一-amp-二、python-基础&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>python_project(3)</title>
     <link href="http://yoursite.com/2020/05/30/python-project-3/"/>
     <id>http://yoursite.com/2020/05/30/python-project-3/</id>
     <published>2020-05-30T13:29:08.000Z</published>
-    <updated>2020-05-30T13:54:04.897Z</updated>
+    <updated>2020-05-30T14:02:31.013Z</updated>
     
     <summary type="html">
     
