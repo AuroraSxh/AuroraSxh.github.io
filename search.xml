@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>结缔组织</title>
+    <url>/2020/10/13/%E7%BB%93%E7%BC%94%E7%BB%84%E7%BB%87/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>上皮组织</title>
     <url>/2020/10/13/%E4%B8%8A%E7%9A%AE%E7%BB%84%E7%BB%87/</url>
     <content><![CDATA[<h1 id="上皮组织"><a href="#上皮组织" class="headerlink" title="上皮组织"></a>上皮组织</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
@@ -432,7 +437,8 @@
   <entry>
     <title>python_review</title>
     <url>/2020/07/28/python-review/</url>
-    <content><![CDATA[<h1 id="python-复习"><a href="#python-复习" class="headerlink" title="python 复习"></a>python 复习</h1><h2 id="一-amp-二、python-基础"><a href="#一-amp-二、python-基础" class="headerlink" title="一&amp;二、python 基础"></a>一&amp;二、python 基础</h2><h3 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h3><h4 id="一）、变量"><a href="#一）、变量" class="headerlink" title="(一）、变量"></a>(一）、变量</h4><h5 id="1、变量名"><a href="#1、变量名" class="headerlink" title="1、变量名"></a>1、变量名</h5><p>变量名注意保留字与关键字</p>
+    <content><![CDATA[<h1 id="python-复习"><a href="#python-复习" class="headerlink" title="python 复习"></a>python 复习</h1><a id="more"></a>
+<h2 id="一-amp-二、python-基础"><a href="#一-amp-二、python-基础" class="headerlink" title="一&amp;二、python 基础"></a>一&amp;二、python 基础</h2><h3 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h3><h4 id="一）、变量"><a href="#一）、变量" class="headerlink" title="(一）、变量"></a>(一）、变量</h4><h5 id="1、变量名"><a href="#1、变量名" class="headerlink" title="1、变量名"></a>1、变量名</h5><p>变量名注意保留字与关键字</p>
 <h5 id="2、变量"><a href="#2、变量" class="headerlink" title="2、变量"></a>2、变量</h5><p><strong>赋值后使用</strong></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">b = <span class="number">3.14</span></span><br><span class="line"></span><br><span class="line">print(type(b))</span><br><span class="line">b</span><br></pre></td></tr></table></figure>
 
