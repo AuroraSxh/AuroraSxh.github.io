@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Aurora Song</title>
   <icon>https://www.gravatar.com/avatar/cb6c4bc01e2a81222488497a4e555eaa</icon>
-  <subtitle>你和我</subtitle>
+  <subtitle>Song&#39;s Space</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-28T12:13:11.654Z</updated>
+  <updated>2020-10-13T11:21:05.704Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>上皮组织</title>
+    <link href="http://yoursite.com/2020/10/13/%E4%B8%8A%E7%9A%AE%E7%BB%84%E7%BB%87/"/>
+    <id>http://yoursite.com/2020/10/13/%E4%B8%8A%E7%9A%AE%E7%BB%84%E7%BB%87/</id>
+    <published>2020-10-13T11:16:42.000Z</published>
+    <updated>2020-10-13T11:21:05.704Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;上皮组织&quot;&gt;&lt;a href=&quot;#上皮组织&quot; class=&quot;headerlink&quot; title=&quot;上皮组织&quot;&gt;&lt;/a&gt;上皮组织&lt;/h1&gt;&lt;h2 id=&quot;特点&quot;&gt;&lt;a href=&quot;#特点&quot; class=&quot;headerlink&quot; title=&quot;特点&quot;&gt;&lt;/a&gt;特点&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;细胞多，间质少，细胞排列紧密&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;细胞成层排列，有单层和复层之分&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;单层上皮细胞有极性，有游离面和基底面，结构有差异&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;上皮组织内无血管，有较多神经末梢（营养依靠渗透作用）&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="组织学与胚胎学" scheme="http://yoursite.com/categories/%E7%BB%84%E7%BB%87%E5%AD%A6%E4%B8%8E%E8%83%9A%E8%83%8E%E5%AD%A6/"/>
+    
+    
+      <category term="组织学" scheme="http://yoursite.com/tags/%E7%BB%84%E7%BB%87%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>python_review</title>
