@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="yxx&amp;sxh" />
+   
+  <meta name="description" content="不知道怎么描述但是现在是我的博客！" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    dripseq |  Aurora Song
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-dripseq" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  dripseq
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/07/25/dripseq/" class="article-date">
+  <time datetime="2021-07-25T00:28:15.000Z" itemprop="datePublished">2021-07-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/bioinfo/">bioinfo</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Drip-seq上游"><a href="#Drip-seq上游" class="headerlink" title="Drip-seq上游"></a>Drip-seq上游</h1><h2 id="Drip-seq简介"><a href="#Drip-seq简介" class="headerlink" title="Drip-seq简介"></a>Drip-seq简介</h2><p><a href="https://infogalactic.com/info/DRIP-seq" target="_blank" rel="noopener">DRIP-seq</a>（DNA:RNA hybrid immunoprecipitation and sequencing）是一种基于特异识别DNA:RNA杂合链抗体的免疫共沉淀及高通量测序分析技术。<br>R-loop 是一种三链核酸结构，由 DNA-RNA 杂交双链体和置换的单链 DNA (ssDNA) 组成。R 环主要在转录过程中在富含胞嘧啶的基因组区域中形成，并且已知与基因表达和免疫球蛋白类别转换有关。它们存在于从细菌到哺乳动物的各种物种中。它们优先定位于人类细胞中的CpG-岛启动子和酵母中的高转录区域。</p>
+<p>在异常情况下，即DNA-RNA杂合体的产量增加，R-loops可通过将单链DNA暴露于AID和APOBEC等酶的作用所造成的内源性损伤，或过度暴露于化学活性物质，从而导致基因组不稳定。因此，了解 R 环在基因组中的位置和情况下形成对于更好地了解基因组不稳定性至关重要。R 环表征最初仅限于位点特定方法。然而，随着高通量测序技术的普及及 DRIP-seq 等技术的诞生，我们能够在基因组水平检测R环。</p>
+<p>DRIP-seq 依赖于 S9.6单克隆抗体(mAb) 对各种长度的 DNA-RNA 杂交体的高特异性和亲和力。S9.6mAb于1986年被首次发现并表达，目前用于R环的选择性免疫沉淀。DRIP-seq的概念类似于ChIP-seq；R-loop片段是DRIP-seq中的主要免疫沉淀材料。</p>
+<h2 id="原始数据下载及格式转换"><a href="#原始数据下载及格式转换" class="headerlink" title="原始数据下载及格式转换"></a>原始数据下载及格式转换</h2><p>本次学习的数据来自于文献<a href="https://genome.cshlp.org/content/23/10/1590.long" target="_blank" rel="noopener"><strong><em>GC skew at the 5’ and 3’ ends of human genes links R-loop formation to epigenetic regulation and transcription termination</em></strong></a></p>
+<p>为了降低难度我们选择其中一对样本进行分析学习：</p>
+<ul>
+<li>GSM1108095    NT2 input 1 -SRR797876</li>
+<li>GSM1108096    NT2 DRIP-seq 1 -SRR797877</li>
+</ul>
+<p>我们采用<a href="http://www.htslib.org/" target="_blank" rel="noopener"><code>samtools</code></a>的<code>prefetch</code>命令进行数据下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> prefetch SRR797876</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> prefetch SRR797877</span></span><br></pre></td></tr></table></figure>
+<p>或者，可以获得<code>Accession list</code>文件，采取<code>prefetch --option-file xxx.xxx(accession list file name)</code>的方式一次性下载多个SRA文件。</p>
+<p>然后使用<code>samtools</code>自带的<code>fastq-dump</code>或者<code>fasterq-dump</code>命令将SRA文件转换为<code>fq</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastq-dump --gzip --split-3 SRR787876</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>注意<code>fasterq-dump</code>命令没有<code>--gzip</code>选项，即无法生成<code>.fq.gz</code>的压缩格式文件。</em></p>
+</blockquote>
+<blockquote>
+<p><em>注意，尽量从ensemble数据库下载<code>.fq</code>文件，省一点事儿是一点。</em></p>
+</blockquote>
+<h2 id="质量检测与过滤"><a href="#质量检测与过滤" class="headerlink" title="质量检测与过滤"></a>质量检测与过滤</h2><h3 id="fastqc质量检测"><a href="#fastqc质量检测" class="headerlink" title="fastqc质量检测"></a>fastqc质量检测</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> fastqc SRRXXXXXX.fastq</span></span><br></pre></td></tr></table></figure>
+<p>通过<em>FileZilla</em>或者类似的<em>WinSCP</em>等sFTP软件传输到本地查看<code>fastqc</code>结果.<br>多个测序文件的结果可以通过<code>multiqc</code>进行合并</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> multiqc *.zip</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用Trimmomatic对数据进行过滤"><a href="#使用Trimmomatic对数据进行过滤" class="headerlink" title="使用Trimmomatic对数据进行过滤"></a>使用Trimmomatic对数据进行过滤</h3><p>因为SRR797876(7)都是在<em>Illumina</em>平台进行测序的，所以可以采用<a href="https://blog.csdn.net/weixin_43569478/article/details/108079221" target="_blank" rel="noopener">Trimmomatic</a>进行测序文件的去接头、过滤低质量碱基的操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 单端测序数据</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> trimmomatic SE -phred33 (input).fq.gz \ </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> output (...).fq.gz \</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ILLUMINACLIP:TruSeq3-SE:2:30:10 \</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> LEADING:3 \</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> TRAILING:3 \</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> SLIDINGWINDOW:4:15 \</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> MINLEN:36</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>Tips: Trimmomatic软件传递参数<font color="red">不需要加小短横-！</font></em></p>
+</blockquote>
+<h2 id="比对到参考基因组"><a href="#比对到参考基因组" class="headerlink" title="比对到参考基因组"></a>比对到参考基因组</h2><h3 id="比对"><a href="#比对" class="headerlink" title="比对"></a>比对</h3><p>根据文献，采用<code>bowtie2</code>软件将测序数据比对到<code>hg19</code>基因组。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bowtie2 -q  -p 8 --phred33 -x /data/lxy/ncbi/public/sra/index/hg19/hg19 -U SRR797876_trim.fastq -S SRR797876_aligned.sam</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://sm.ms/image/2t1OWHf4piEyMNo" target="_blank"><div align="center"><br><img src="https://i.loli.net/2021/08/09/2t1OWHf4piEyMNo.png"></div></a></p>
+
+
+
+<p>比对结果分为三部分（一般看第一部分和第二部分就够了）：</p>
+<ul>
+<li>第一部分:是pair-end模式下的一致的比对结果<br>16182999 (100.00%) were paired：表示总共有这么多对的reads<br>5731231 (35.42%) aligned concordantly 0 times：表示reads1和reads2不能合理的比对到基因组上<br>4522376 (27.95%) aligned concordantly exactly 1 time：表示合理比对到基因组上了，reads1和reads2同时比对上并且只有一种比对结果<br>5929392 (36.64%) aligned concordantly &gt;1 times：表示合理比对到基因组上了，但是reads1和reads2可以同时比对上但是可以比对到多个地方</li>
+<li>第二部分：是pair-end模式下不一致的比对结果<br>5731231 pairs aligned concordantly 0 times; of these:<br>2381431 (41.55%) aligned discordantly 1 time：表示reads1和reads2都能比对上，但是比对不合理（比如比对方向不对或者插入片段有限）</li>
+<li>第三部分：对剩余reads（既不能concordantly，也不能discordantly 1 times）的单端模式的比对</li>
+<li>3349800 pairs aligned 0 times concordantly or discordantly; of these: 表示16182999-（4522376+5929392+2381431）=3349800</li>
+<li>6699600 mates make up the pairs; of these：表示总共有这么多条reads,3349800*2</li>
+<li>3814736 (56.94%) aligned 0 times：表示没有比对上的</li>
+<li>1883429 (28.11%) aligned exactly 1 time：表示比对上并且只有一种比对结果的</li>
+<li>1001435 (14.95%) aligned &gt;1 times：表示比对上但能比对到多个地方</li>
+<li>88.21% overall alignment rate：表示比对率。<br><code>[4522376*2+5939392*2+2381431*2+1883429+1001435]/(16182999*2)=0.8821”</code></li>
+</ul>
+<h3 id="sam转bam并排序去重"><a href="#sam转bam并排序去重" class="headerlink" title="sam转bam并排序去重"></a>sam转bam并排序去重</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 排序</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools sort input.sam &gt;output.bam</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 去重</span></span><br><span class="line"><span class="meta">#</span><span class="bash">在samtools中也提供了去除PCR重复的命令markdup, 该命令对输入的bam文件有以下两点<span class="comment">#要求：</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">必须是经过samtools fixmate命令处理之后的文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">必须是按照比对上染色体坐标位置排序之后的文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">另外，由于fixmate命令要求输入的bam文件为按照<span class="built_in">read</span> name,即序列名称排序之后的文件，所以在使用markdup命令时，需要以下4步转换过程：</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第一步，按照reads name排序bam文件（之前是按坐标排序）</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools sort -n -o namesort.bam input.bam</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第二步，运行fixmate命令</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools fixmate -m namesort.bam fixmate.bam</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第三步，按照coordinate排序bam文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools sort -o positionsort.bam fixmate.bam</span></span><br><span class="line"><span class="meta">#</span><span class="bash">第四步，运行markdup命令</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools markdup positionsort.bam markdup.bam</span></span><br></pre></td></tr></table></figure>
+<p>也可以采用<code>sambamba</code>软件进行排序与去重</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 第一步，按照coordinate排序bam文件</span></span><br><span class="line">sambamba sort -o positionsort.bam input.bam</span><br><span class="line"><span class="meta">#</span><span class="bash"> 第二步，运行markdup命令</span></span><br><span class="line">sambamba markdup -r positionsort.bam markdup.bam</span><br></pre></td></tr></table></figure>
+<p>下面对去重结果进行检测：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">检查去重结果</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> samtools flagstat [finename]</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://sm.ms/image/lA2M8cyf5trNJiO" target="_blank"><div align="center"><br><img src="https://i.loli.net/2021/08/09/lA2M8cyf5trNJiO.png"></div></a></p>
+
+
+<blockquote>
+<p>从第一行至第十一行分别表示：</p>
+<ol>
+<li>QC pass的reads的数量为2499917，未通过QC的reads数量为0，意味着一共有&gt; 2499971条reads；</li>
+<li>重复reads的数量，QC pass和failed</li>
+<li>比对到参考基因组上的reads数量；</li>
+<li>paired reads数据数量；</li>
+<li>read1的数量；</li>
+<li>read2 的数量；</li>
+<li>正确地匹配到参考序列的reads数量</li>
+<li>一对reads都比对到了参考序列上的数量，但是并不一定比对到同一条染色体上；</li>
+<li>一对reads中只有一条与参考序列相匹配的数量； </li>
+<li>一对reads比对到不同染色体的数量；</li>
+<li>一对reads比对到不同染色体的且比对质量值大于5的数量。</li>
+</ol>
+</blockquote>
+<h2 id="生成bed、bw等文件并载入IGV进行初步可视化"><a href="#生成bed、bw等文件并载入IGV进行初步可视化" class="headerlink" title="生成bed、bw等文件并载入IGV进行初步可视化"></a>生成bed、bw等文件并载入IGV进行初步可视化</h2><h3 id="MACS2"><a href="#MACS2" class="headerlink" title="MACS2"></a>MACS2</h3><p>我们先使用<a href="https://www.jianshu.com/p/6a975f0ea65a" target="_blank" rel="noopener">MACS2</a>软件将前一步获得的.bam文件生成可视化所需的前置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用MACS2的callpeak生成bdg文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">有control数据</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="keyword">for</span> i <span class="keyword">in</span> *.bam</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> macs2 callpeak -f BAM -c control.bam -t <span class="variable">$i</span> -n <span class="variable">$i</span> -g hs --outdir ../macs2/ --bdg -q 0.05</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">没有control数据</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="keyword">for</span> i <span class="keyword">in</span> *.bam</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> macs2 callpeak -f BAM -t <span class="variable">$i</span> -n <span class="variable">$i</span> -g hs --outdir ../macs2/ --bdg -q 0.05</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>-f 指定输入文件的格式，如SAM、BAM、BED等</li>
+<li>-c 对照组，可以接多个数据，空格分隔。</li>
+<li>-t 实验组，ChIP-seq数据。可以接多个数据，空格分隔。</li>
+<li>-n 输出文件名的前缀</li>
+<li>-g 有效基因组大小。软件有几个默认值，如hs指human</li>
+<li>–outdir 输出结果的存储路径</li>
+<li>–bdg 输出 bedgraph 格式的文件</li>
+<li>-q FDR阈值, 默认为0.05</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> macs2 callpeak -f BAM -g hs -c SRR797876/SRR797876-markdup-2.bam -t SRR797877/SRR797877-markdup-filter.bam  -n SRR797876797877 -B -q 0.0001</span></span><br><span class="line">```  </span><br><span class="line">该运行步骤会得到如下文件：</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- NAME_peaks.xls: 以表格形式存放peak信息，虽然后缀是xls，但其实能用文本编辑器打开，和bed格式类似，但是以1为基，而bed文件是以0为基.也就是说xls的坐标都要减一才是bed文件的坐标</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- NAME_peaks.narrowPeak NAME_peaks.broadPeak 类似。后面4列表示为， <span class="built_in">integer</span> score <span class="keyword">for</span> display， fold-change，-log10pvalue，-log10qvalue，relative summit position to peak start。内容和NAME_peaks.xls基本一致，适合用于导入R进行分析。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- NAME_summits.bed：记录每个peak的peak summits，话句话说就是记录极值点的位置。MACS建议用该文件寻找结合位点的motif。能够直接载入UCSC browser，用其他软件分析时需要去掉第一行。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- NAME_peaks.gappedPeak: 格式为BED12+3，里面存放broad region和narrow peaks。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- NAME_model.r，能通过$ Rscript NAME_model.r作图，得到是基于你提供数据的peak模型。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">- .bdg文件能够用UCSC genome browser转换成更小的bigWig文件。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## bigwig文件在IGV中的可视化</span></span></span><br><span class="line">因为需要可视化窗口，而纯Linux命令行界面是无法显示图形的，因此我们采用[puuty+igv+xming](https://blog.csdn.net/Yinyaowei/article/details/108303562)的形式进行可视化窗口的建立。</span><br><span class="line"></span><br><span class="line">建立完成后，在igv的安装文件夹下运行`./IGV.sh`命令即可运行IGV可视化窗口。</span><br><span class="line"></span><br><span class="line">安装好IGV后，如果要查看bigwig峰，就要把bed或bdg文件转换为bw文件：</span><br><span class="line">```shell</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装所需软件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install -y ucsc-bedgraphtobigwig ucsc-fetchchromsizes </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install -c bioconda ucsc-bedclip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 还是要准备好基因组染色体大小</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> fetchChromSizes hg19&gt;hg19.chrom.sizes</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第一步</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bedtools slop -i GSM2301180_5hmC_WT_High.bedgraph -g hg19.chrom.sizes -b 0 | bedClip stdin hg19.chrom.sizes GSM2301180_5hmC_WT_High.clip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第二步</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sort -k1,1 -k2,2n GSM2301180_5hmC_WT_High.clip &gt;GSM2301180_5hmC_WT_High.$ sort.clip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第三步</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bedGraphToBigWig GSM2301180_5hmC_WT_High.sort.clip hg19.chrom.sizes   GSM2301180_5hmC_WT_High.bw</span></span><br></pre></td></tr></table></figure>
+<p>随后可以将<code>.bw</code>文件导入IGV中进行可视化</p>
+<p><strong><em>注意IGV可视化也需要参考基因组文件</em></strong></p>
+<h2 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h2><p><a href="https://www.jianshu.com/p/ceace75a3dcf" target="_blank" rel="noopener">https://www.jianshu.com/p/ceace75a3dcf</a><br><a href="https://www.jianshu.com/p/6a975f0ea65a" target="_blank" rel="noopener">https://www.jianshu.com/p/6a975f0ea65a</a><br><a href="https://blog.csdn.net/sunyu_03/article/details/82633799" target="_blank" rel="noopener">https://blog.csdn.net/sunyu_03/article/details/82633799</a><br><a href="https://blog.csdn.net/weixin_43569478/article/details/108079221" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43569478/article/details/108079221</a></p>
+<p>以及咱<font color="pink"><strong>可爱又努力滴李欣怡同学</strong></font></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2021/07/25/dripseq/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Drip-seq/" rel="tag">Drip-seq</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/07/25/m6aseq/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">m6aseq</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020-2021
+        Xiaohan Song
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo1.jpg" alt="Aurora Song"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['遇见生物与医学是我最大的幸运','要继续努力呀',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>

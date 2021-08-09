@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-10-20T01:53:54.213Z</updated>
+  <updated>2021-08-09T12:40:18.636Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,94 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>dripseq</title>
+    <link href="http://yoursite.com/2021/07/25/dripseq/"/>
+    <id>http://yoursite.com/2021/07/25/dripseq/</id>
+    <published>2021-07-25T00:28:15.000Z</published>
+    <updated>2021-08-09T12:40:18.636Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Drip-seq上游&quot;&gt;&lt;a href=&quot;#Drip-seq上游&quot; class=&quot;headerlink&quot; title=&quot;Drip-seq上游&quot;&gt;&lt;/a&gt;Drip-seq上游&lt;/h1&gt;&lt;h2 id=&quot;Drip-seq简介&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="bioinfo" scheme="http://yoursite.com/categories/bioinfo/"/>
+    
+    
+      <category term="Drip-seq" scheme="http://yoursite.com/tags/Drip-seq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>m6aseq</title>
+    <link href="http://yoursite.com/2021/07/25/m6aseq/"/>
+    <id>http://yoursite.com/2021/07/25/m6aseq/</id>
+    <published>2021-07-25T00:28:15.000Z</published>
+    <updated>2021-08-09T10:34:34.087Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;MeRIP-seq上游&quot;&gt;&lt;a href=&quot;#MeRIP-seq上游&quot; class=&quot;headerlink&quot; title=&quot;MeRIP-seq上游&quot;&gt;&lt;/a&gt;MeRIP-seq上游&lt;/h1&gt;&lt;p&gt;本笔记根据生信技能树m6a系列推送进行学习&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+      <category term="bioinfo" scheme="http://yoursite.com/categories/bioinfo/"/>
+    
+    
+      <category term="m6a" scheme="http://yoursite.com/tags/m6a/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>泌尿系统</title>
+    <link href="http://yoursite.com/2020/10/20/%E6%B3%8C%E5%B0%BF%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://yoursite.com/2020/10/20/%E6%B3%8C%E5%B0%BF%E7%B3%BB%E7%BB%9F/</id>
+    <published>2020-10-20T07:45:59.000Z</published>
+    <updated>2020-10-22T10:36:02.529Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本节介绍了泌尿系统组织学&lt;/p&gt;
+&lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;h2 id=&quot;泌尿系统组成&quot;&gt;&lt;a href=&quot;#泌尿系统组成&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="组织学与胚胎学" scheme="http://yoursite.com/categories/%E7%BB%84%E7%BB%87%E5%AD%A6%E4%B8%8E%E8%83%9A%E8%83%8E%E5%AD%A6/"/>
+    
+    
+      <category term="组织学" scheme="http://yoursite.com/tags/%E7%BB%84%E7%BB%87%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>肌组织</title>
     <link href="http://yoursite.com/2020/10/20/%E8%82%8C%E7%BB%84%E7%BB%87/"/>
     <id>http://yoursite.com/2020/10/20/%E8%82%8C%E7%BB%84%E7%BB%87/</id>
     <published>2020-10-20T01:44:32.000Z</published>
-    <updated>2020-10-20T01:53:54.213Z</updated>
+    <updated>2020-10-20T07:51:41.135Z</updated>
     
     <summary type="html">
     
@@ -373,23 +456,6 @@
     
     
       <category term="小涵！" scheme="http://yoursite.com/tags/%E5%B0%8F%E6%B6%B5%EF%BC%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/03/03/hello-world/"/>
-    <id>http://yoursite.com/2020/03/03/hello-world/</id>
-    <published>2020-03-03T01:02:37.179Z</published>
-    <updated>2020-03-03T03:44:33.765Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-    
-    </summary>
-    
-    
     
   </entry>
   

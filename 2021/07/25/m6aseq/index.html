@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="yxx&amp;sxh" />
+   
+  <meta name="description" content="不知道怎么描述但是现在是我的博客！" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    m6aseq |  Aurora Song
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-m6aseq" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  m6aseq
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/07/25/m6aseq/" class="article-date">
+  <time datetime="2021-07-25T00:28:15.000Z" itemprop="datePublished">2021-07-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/bioinfo/">bioinfo</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="MeRIP-seq上游"><a href="#MeRIP-seq上游" class="headerlink" title="MeRIP-seq上游"></a>MeRIP-seq上游</h1><p>本笔记根据生信技能树m6a系列推送进行学习</p>
+<h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>本文数据来源于文章<a href="https://www.nature.com/articles/nn.3449" target="_blank" rel="noopener"><strong><em>The fat mass and obesity associated gene (Fto) regulates activity of the dopaminergic midbrain circuitry</em></strong></a>。</p>
+<p>数据集编号<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47217" target="_blank" rel="noopener">GSE47217</a>，ENA数据库使用：<a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA205149" target="_blank" rel="noopener">PRJNA205149</a>。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动conda环境</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> . ~/miniconda3/bin/activate</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 建立m6aseq子环境</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda create -n m6aseq -y</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装所需要的各种软件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install bowtie2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install hisat2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据下载与质控过滤"><a href="#数据下载与质控过滤" class="headerlink" title="数据下载与质控过滤"></a>数据下载与质控过滤</h2><p>一般来讲aspera会更加快速一点，在conda环境下安装采用语句：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install -c hcc aspera-cli -y</span></span><br></pre></td></tr></table></figure>
+<p>但是因为某些原因<code>ascp</code>一直连接失败，于是可以采用<code>sratools</code>自带的<code>prefetch</code>或者直接通过<code>wget</code>命令从ensemble的数据库下载:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 从ENA数据库得到fastq下载链接</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat -A fastq.url</span></span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866991/SRR866991.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866992/SRR866992.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866993/SRR866993.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866994/SRR866994.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866995/SRR866995.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866996/SRR866996.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866997/SRR866997.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866998/SRR866998.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR866/SRR866999/SRR866999.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR867/SRR867000/SRR867000.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR867/SRR867001/SRR867001.fastq.gz</span><br><span class="line">fasp.sra.ebi.ac.uk:/vol1/fastq/SRR867/SRR867002/SRR867002.fastq.gz</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用aspera下载</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> key_ssh=~/biosoft/miniconda3/envs/rna/etc/asperaweb_id_dsa.openssh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat  fastq.url | <span class="keyword">while</span> <span class="built_in">read</span> id</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ascp -k 1 -QT -l 300m -P33001 -i <span class="variable">$key_ssh</span> era-fasp@<span class="variable">$&#123;id&#125;</span> ./ </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用wget下载</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget -i fastq.url</span></span><br></pre></td></tr></table></figure>
+<p><strong><font color="red">注意使用<code>md5sum</code>进行完整性检验！</font></strong></p>
+<h2 id="数据质控与过滤"><a href="#数据质控与过滤" class="headerlink" title="数据质控与过滤"></a>数据质控与过滤</h2><h3 id="质量查看"><a href="#质量查看" class="headerlink" title="质量查看"></a>质量查看</h3><p>使用<a href="https://www.jianshu.com/p/134c45339805" target="_blank" rel="noopener"><code>fastqc</code></a>进行质量检验，使用<code>multiqc</code>进行fastqc报告的合并</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir qc</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> fastqc -t 20 -o qc/ SRR*.fastq.gz</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用MultiQc整合FastQC结果</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> multiqc *.zip</span></span><br></pre></td></tr></table></figure>
+<h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>使用<a href="https://www.jianshu.com/p/7a3de6b8e503" target="_blank" rel="noopener"><code>trim_galore</code></a>进行过滤，因为数据较早，数据读长比较短，我们这里保留大于15bp的reads。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir cleandata</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 过滤</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls ../fastq/SRR*gz |<span class="keyword">while</span> <span class="built_in">read</span> id</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> trim_galore --phred33 -q 25 -e 0.1 --length 15 --stringency 3 --fastqc </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> --max_n 3 -o ./ <span class="variable">$id</span> &gt;<span class="variable">$&#123;id&#125;</span>.<span class="built_in">log</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 过滤后的质控</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> multiqc *.zip</span></span><br></pre></td></tr></table></figure>
+<p>过滤后即可得到 <code>cleandata</code>：<br><img src="https://i.loli.net/2021/08/09/evjl2aWCUq3ycdJ.png" alt="DX_L7DX9K~O4__V_RXM82VK.png"></p>
+<h2 id="去除rRNA序列并且比对到参考基因组"><a href="#去除rRNA序列并且比对到参考基因组" class="headerlink" title="去除rRNA序列并且比对到参考基因组"></a>去除rRNA序列并且比对到参考基因组</h2><p><a href="https://www.britannica.com/science/nucleic-acid/Ribosomal-RNA-rRNA#ref594026" target="_blank" rel="noopener">rRNA在参考基因组上存在多个copy</a>，比对时会造成数据比对结果中多比率偏高。rRNA的存在对后续的影响就主要看后面的分析使用的是唯一比对reads还是所有比对上的reads了。</p>
+<p>那么，数据中为什么会测到rRNA呢？这就跟前期建库采用的策略有关系了，去除rRNA的试剂盒的效率等问题。</p>
+<p>此次，我们先去文中提到的网址下载rRNA序列，然后使用bowtie2进行比对。</p>
+<h3 id="下载小鼠rRNA序列"><a href="#下载小鼠rRNA序列" class="headerlink" title="下载小鼠rRNA序列"></a>下载小鼠rRNA序列</h3><p>打开NCBI网址：<a href="https://www.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/</a> ，选择Taxonomy数据库，输入10090，10090为小鼠的物种ID。选择右侧 Nucleotide，保存。<br><img src="https://mmbiz.qpic.cn/mmbiz_png/cZNhZQ6j4wxVYvMHibdKrub7y6PKo1w1E9QQ1ADcKaq96X2icBgz0pcmC6v4CsWVOVoQOAsjIEibuJE99hEkDIKkw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt><br><img src="https://mmbiz.qpic.cn/mmbiz_png/cZNhZQ6j4wxVYvMHibdKrub7y6PKo1w1EicYdRTVtyGb3XK46fEJVgbqEDa9TRLYYXHn4rKbAibtfbCznUSiacKicGg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt><br><img src="https://mmbiz.qpic.cn/mmbiz_png/cZNhZQ6j4wxVYvMHibdKrub7y6PKo1w1EiaiciaNqs3SqRuJwLADa7vz4lh9HJhPy3Cg61iaBNwWws4VZUrjia6h0bQA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt><br><a href="https://sm.ms/image/jPXWkLCGcwy3tIv" target="_blank"></a></p>
+<div align="center">
+<img src="https://i.loli.net/2021/08/09/jPXWkLCGcwy3tIv.png">
+</div>
+
+
+<h3 id="构建rRNA的索引"><a href="#构建rRNA的索引" class="headerlink" title="构建rRNA的索引"></a>构建rRNA的索引</h3><p>检查rNRA序列是否为82条：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat Mus_musculus.rRNA.fasta | grep <span class="string">'&gt;'</span> | wc -l</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>bowtoe2</code>进行rRNA的索引构建：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bowtie2-build Mus_musculus.rRNA.fa Mus_musculus.rRNA</span></span><br></pre></td></tr></table></figure>
+<p>得到结果：<br><a href="https://sm.ms/image/XeSo4gt9ApbPK2B" target="_blank"><div align="center"><br><img src="https://i.loli.net/2021/08/09/XeSo4gt9ApbPK2B.png"></div></a></p>
+
+
+<h3 id="比对数据去除rRNA"><a href="#比对数据去除rRNA" class="headerlink" title="比对数据去除rRNA"></a>比对数据去除rRNA</h3><p>进行比对：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 构建一个自己的路径，这里我们</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir bowtie</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 换成自己的路径,注意index为索引前缀</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> index=/path/rRNA_index/Mus_musculus.rRNA </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> od=/path/bowtie2</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 单端数据</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls *gz |<span class="keyword">while</span> <span class="built_in">read</span> id</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sam=<span class="variable">$&#123;id%_*&#125;</span>;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> nohup bowtie2 -x <span class="variable">$index</span> --un-gz <span class="variable">$&#123;od&#125;</span>/<span class="variable">$&#123;sam&#125;</span>.derRNA.fq.gz -U <span class="variable">$id</span> -p 8 -S <span class="variable">$&#123;od&#125;</span>/<span class="variable">$&#123;sam&#125;</span>.rRNA.mapped.sam 2&gt;<span class="variable">$&#123;od&#125;</span>/<span class="variable">$&#123;sam&#125;</span>.<span class="built_in">log</span> &amp;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 双端数据的比对看文献中的代码，文献中提供的为双端数据</span></span><br></pre></td></tr></table></figure>
+<p>比对后得到如下的结果文件：</p>
+<p><img src="https://i.loli.net/2021/08/09/3b5S9EQ6kXD2A4a.png" alt="5YGHJE7ADYI__A_R@QFUH_M.png"><br>比对完成后检验比对率：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> bowtie2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls SRR*<span class="built_in">log</span> &gt;ID1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat SRR*<span class="built_in">log</span> |grep <span class="string">'overall alignment rate'</span> &gt;ID2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> paste -d<span class="string">'\t'</span> ID1 ID2</span></span><br><span class="line"></span><br><span class="line">SRR866991.log 25.24% overall alignment rate</span><br><span class="line">SRR866992.log 70.00% overall alignment rate</span><br><span class="line">SRR866993.log 28.12% overall alignment rate</span><br><span class="line">SRR866994.log 91.21% overall alignment rate</span><br><span class="line">SRR866995.log 37.59% overall alignment rate</span><br><span class="line">SRR866996.log 78.50% overall alignment rate</span><br><span class="line">SRR866997.log 35.99% overall alignment rate</span><br><span class="line">SRR866998.log 89.05% overall alignment rate</span><br><span class="line">SRR866999.log 34.60% overall alignment rate</span><br><span class="line">SRR867000.log 62.99% overall alignment rate</span><br><span class="line">SRR867001.log 34.18% overall alignment rate</span><br><span class="line">SRR867002.log 68.39% overall alignment rate</span><br></pre></td></tr></table></figure>
+<p>我们可以看到SRR866994和SRR866998的总比对率最高，分别为91.21%和89.05%，与我们观察到的qc结果中GC含量特征分布图结果一致。</p>
+<p>rRNA数据过高，对m6A Peak Calling分析的主要影响是有效数据量变少。</p>
+<h3 id="比对到参考基因组"><a href="#比对到参考基因组" class="headerlink" title="比对到参考基因组"></a>比对到参考基因组</h3><h4 id="下载参考基因组并建立索引"><a href="#下载参考基因组并建立索引" class="headerlink" title="下载参考基因组并建立索引"></a>下载参考基因组并建立索引</h4><p>这里我们使用ensembl数据库的参考基因，下载方式如下</p>
+<p>1.进入网址：<a href="http://ftp.ensembl.org/pub/release-104/fasta/mus_musculus/dna/" target="_blank" rel="noopener">http://ftp.ensembl.org/pub/release-104/fasta/mus_musculus/dna/</a></p>
+<p>选择文件：Mus_musculus.GRCm39.dna.primary_assembly.fa.gz</p>
+<p>下载命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p Genome/Mouse/GRCm38.104</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget -c http://ftp.ensembl.org/pub/release-104/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz</span></span><br></pre></td></tr></table></figure>
+<p>2.建索引<br>由于m6A数据是RNA测序，因此我们这里使用适用于RNA比对的软件<code>Hisat2</code>进行比对，那么，建立<code>Hisat2</code>的参考基因组索引为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 注意Homo_sapiens.GRCh38.dna.primary_assembly为索引前缀</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hisat2-build Mus_musculus.GRCm39.dna.primary_assembly.fa.gz Mus_musculus.GRCm39.dna.primary_assembly</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 建立索引的过程大约为30分钟左右，可以写入sh脚本提交后台运行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> index.sh的内容为：</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hisat2-build Mus_musculus.GRCm39.dna.primary_assembly.fa.gz   Mus_musculus.GRCm39.dna.primary_assembly</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交后台运行，注意养成一个好习惯，保存运行日志方面查看进度</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> nohup sh index.sh &gt;index.sh.log &amp;</span></span><br></pre></td></tr></table></figure>
+<p>索引建立完了之后会生成以下几个以<code>ht2</code>结尾的索引文件，如果在参数中设置了以大文件形式进行索引构建那么后缀会是<code>.ht2l</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.1.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.2.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.3.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.4.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.5.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.6.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.7.ht2</span><br><span class="line">Mus_musculus.GRCm39.dna.primary_assembly.8.ht2</span><br></pre></td></tr></table></figure>
+<h4 id="比对"><a href="#比对" class="headerlink" title="比对"></a>比对</h4><p>参考基因组已经准备好了，去除rRNA的fq文件也准备好了，将数据比对到参考基因组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 首先处理得到sampleID，也可以直接从ENA的那个表格中提取出来</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -1 bowtie2/*gz | cut -d<span class="string">'/'</span> -f 2 |cut -d<span class="string">'.'</span> -f 1 &gt;sampleId.txt</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> sampleId.txt内容如下，其实就是在后面的代码中起到一个指示文件id的作用</span></span><br><span class="line">SRR866991</span><br><span class="line">SRR866992</span><br><span class="line">SRR866993</span><br><span class="line">SRR866994</span><br><span class="line">SRR866995</span><br><span class="line">SRR866996</span><br><span class="line">SRR866997</span><br><span class="line">SRR866998</span><br><span class="line">SRR866999</span><br><span class="line">SRR867000</span><br><span class="line">SRR867001</span><br><span class="line">SRR867002</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">将以下内容写入到Hisat.sh脚本中</span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意等号两边不能有空格，index内容要换成自己的正确路径，index再次强调为索引前缀</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> index=Genome/Mouse/GRCm38.104/Mus_musculus.GRCm39.dna.primary_assembly</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> indir=./bowtie2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> outdir=./mapping</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat sampleId.txt | <span class="keyword">while</span> <span class="built_in">read</span> id</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">do</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> hisat2 -p 10 -x <span class="variable">$&#123;index&#125;</span> -U <span class="variable">$&#123;indir&#125;</span>/<span class="variable">$&#123;id&#125;</span>.derRNA.fq.gz  2&gt;<span class="variable">$&#123;outdir&#125;</span>/<span class="variable">$&#123;id&#125;</span>.<span class="built_in">log</span> | samtools sort -@ 10 -o <span class="variable">$&#123;outdir&#125;</span>/<span class="variable">$&#123;id&#125;</span>.Hisat_aln.sorted.bam -  &amp;&amp; samtools index <span class="variable">$&#123;outdir&#125;</span>/<span class="variable">$&#123;id&#125;</span>.Hisat_aln.sorted.bam <span class="variable">$&#123;outdir&#125;</span>/<span class="variable">$&#123;id&#125;</span>.Hisat_aln.sorted.bam.bai</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">done</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交后台运行</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> nohup sh Hisat.sh &gt;Hisat.sh.log &amp;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="比对结果解读"><a href="#比对结果解读" class="headerlink" title="比对结果解读"></a>比对结果解读</h3><p>比对结果文件如下，每一个样本一个排序后的bam文件，bam的索引bai以及存有比对信息的log日志。<br>![`O79_F__M_VS_XN3_M_2XTF.png](<a href="https://i.loli.net/2021/08/09/sTft2a6PbyrcNGK.png" target="_blank" rel="noopener">https://i.loli.net/2021/08/09/sTft2a6PbyrcNGK.png</a>)<br>选取一个样本的log查看比对详细情况：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat SRR866991.log</span></span><br><span class="line"></span><br><span class="line">58186286 reads; of these:</span><br><span class="line">  58186286 (100.00%) were unpaired; of these:</span><br><span class="line">    4153900 (7.14%) aligned 0 times</span><br><span class="line">    35063517 (60.26%) aligned exactly 1 time</span><br><span class="line">    18968869 (32.60%) aligned &gt;1 times</span><br><span class="line">92.86% overall alignment rate</span><br></pre></td></tr></table></figure>
+<p>我们可以看到这个样本的总比对率为92.86%，这是非常重要的一个指标，一般来说，样本的总比对率需要达到80%以上，70%多也能接受。如果你的总比对率太低如20%以下，有可能有以下几种情况：</p>
+<ol>
+<li>参考基因组序列与fastq文件中的reads不是来源于同一个物种，要么是参考基因组用错了，要么是fastq文件搞错了。</li>
+<li>序列中含有其他序列如细菌等污染。<br>这个时候可以对你的fastq序列抽取其中一部分reads做NCBI的nr/nt库的blast比对来确定fastq中的序列来源。</li>
+</ol>
+<p>比对log中其他信息：</p>
+<ul>
+<li>第一行：58186286 reads; of these，统计了这个样本的总reads数</li>
+<li>第二行：58186286 (100.00%) were unpaired; of these:，read是单端</li>
+<li>第三行：4153900 (7.14%) aligned 0 times，没有比对上参考基因组序列的read数和比例</li>
+<li>第四行：35063517 (60.26%) aligned exactly 1 time，比对上参考基因组并且只比对上一个位置的序列。</li>
+<li>第五行：18968869 (32.60%) aligned &gt;1 times，比对上参考基因组且比对到多个位置。</li>
+<li>第六行：92.86% overall alignment rate，总比对率.</li>
+</ul>
+<p>清楚了每一行的信息之后，我们来算一下总比对率是如何算的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((58186286-4153900)&#x2F;58186286)*100 &#x3D; 92.86%</span><br></pre></td></tr></table></figure>
+<p>也就是说总比对率其实包含了多比对read的部分。</p>
+<p>将我们的log日志进行整理得到总比对的表格或者一个html文档</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> multiqc可以将<span class="built_in">log</span>日志中的数据进行可视化方便一起查看多个样本的比对结果。</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> multiqc *<span class="built_in">log</span></span></span><br></pre></td></tr></table></figure>
+
+<p>所有样本的总比对，有一个样本的比对率有些低，可以回去查查这个样的的质控等情况。</p>
+<p>综合以上的情况，SRR866993号样本在这里的结果不是特别好，后面分析的有效数据会比较少。</p>
+<h2 id="bam文件转BigWig文件并绘制热图"><a href="#bam文件转BigWig文件并绘制热图" class="headerlink" title="bam文件转BigWig文件并绘制热图"></a>bam文件转BigWig文件并绘制热图</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> bam2bw</span></span><br><span class="line">ls ../mapping/*bam | while read id</span><br><span class="line">do</span><br><span class="line">sam=$&#123;id##*/&#125;;sam1=$&#123;sam%%.*&#125;;</span><br><span class="line">nohup bamCoverage -p 6 -b $&#123;id&#125; --centerReads --ignoreDuplicates -o $&#123;sam1&#125;.bw &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 制作gene的bed文件</span></span><br><span class="line">cat Mus_musculus.GRCm38.104.gtf |awk 'BEGIN&#123; FS=" ";OFS="\t" &#125;&#123;if($3 ~/gene/) print $1,$4-1,$5-1,$10,$6,$7&#125;'|sed -e s'/"//'g -e s'/;//'g &gt;Mus_musculus.GRCm38.104.bed</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> computeMatrix</span></span><br><span class="line">computeMatrix scale-regions -p 8 \</span><br><span class="line">-b 3000 -a 3000  \</span><br><span class="line">-R Mus_musculus.GRCm38.101.bed \</span><br><span class="line">--regionBodyLength 6000 \</span><br><span class="line">-S SRR*.bw \</span><br><span class="line">-o All_Sample.TSS-body-TES_distribute.gz </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> plot heatmap</span></span><br><span class="line">plotHeatmap --dpi 200 --heatmapHeight 15 \</span><br><span class="line">--matrixFile All_Sample.TSS-body-TES_distribute.gz \</span><br><span class="line">--outFileName All_Sample.TSS-body-TES_Heatmap.png</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于<code>sam=${id##*/};sam1=${sam%%.*};</code>部分解释如下</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 从左向右截取最后一个string后的字符串</span><br><span class="line">$&#123;varible##*string&#125;</span><br><span class="line"># 从左向右截取第一个string后的字符串</span><br><span class="line">$&#123;varible#*string&#125;</span><br><span class="line"># 从右向左截取最后一个string后的字符串</span><br><span class="line">$&#123;varible%%string*&#125;</span><br><span class="line"># 从右向左截取第一个string后的字符串</span><br><span class="line">$&#123;varible%string*&#125;</span><br></pre></td></tr></table></figure>
+<p>最终得到如图所示热图：<br><img src="https://i.loli.net/2021/08/09/yRwQGqZ1njMFarL.png" alt="All_Sample.TSS-body-TES_Heatmap.png"></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2021/07/25/m6aseq/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/m6a/" rel="tag">m6a</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2021/07/25/dripseq/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            dripseq
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/10/20/%E6%B3%8C%E5%B0%BF%E7%B3%BB%E7%BB%9F/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">泌尿系统</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020-2021
+        Xiaohan Song
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo1.jpg" alt="Aurora Song"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['遇见生物与医学是我最大的幸运','要继续努力呀',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
