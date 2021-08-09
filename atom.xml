@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-08-09T12:49:19.174Z</updated>
+  <updated>2021-08-09T12:56:13.363Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,17 +21,11 @@
     <link href="http://yoursite.com/2021/07/25/dripseq/"/>
     <id>http://yoursite.com/2021/07/25/dripseq/</id>
     <published>2021-07-25T00:28:15.000Z</published>
-    <updated>2021-08-09T12:49:19.174Z</updated>
+    <updated>2021-08-09T12:56:13.363Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h1 id=&quot;Drip-seq上游&quot;&gt;&lt;a href=&quot;#Drip-seq上游&quot; class=&quot;headerlink&quot; title=&quot;Drip-seq上游&quot;&gt;&lt;/a&gt;Drip-seq上游&lt;/h1&gt;&lt;h2 id=&quot;Drip-seq简介&quot;&gt;&lt;a
-        
-      
+      &lt;h1 id=&quot;Drip-seq上游&quot;&gt;&lt;a href=&quot;#Drip-seq上游&quot; class=&quot;headerlink&quot; title=&quot;Drip-seq上游&quot;&gt;&lt;/a&gt;Drip-seq上游&lt;/h1&gt;
     
     </summary>
     
@@ -48,18 +42,11 @@
     <link href="http://yoursite.com/2021/07/25/m6aseq/"/>
     <id>http://yoursite.com/2021/07/25/m6aseq/</id>
     <published>2021-07-25T00:28:15.000Z</published>
-    <updated>2021-08-09T10:34:34.087Z</updated>
+    <updated>2021-08-09T12:51:09.281Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h1 id=&quot;MeRIP-seq上游&quot;&gt;&lt;a href=&quot;#MeRIP-seq上游&quot; class=&quot;headerlink&quot; title=&quot;MeRIP-seq上游&quot;&gt;&lt;/a&gt;MeRIP-seq上游&lt;/h1&gt;&lt;p&gt;本笔记根据生信技能树m6a系列推送进行学习&lt;/p&gt;
-&lt;h2
-        
-      
+      &lt;h1 id=&quot;MeRIP-seq上游&quot;&gt;&lt;a href=&quot;#MeRIP-seq上游&quot; class=&quot;headerlink&quot; title=&quot;MeRIP-seq上游&quot;&gt;&lt;/a&gt;MeRIP-seq上游&lt;/h1&gt;&lt;p&gt;本笔记根据生信技能树m6a系列推送进行学习&lt;/p&gt;
     
     </summary>
     
@@ -205,15 +192,15 @@
   </entry>
   
   <entry>
-    <title>结缔组织</title>
-    <link href="http://yoursite.com/2020/10/13/%E7%BB%93%E7%BC%94%E7%BB%84%E7%BB%87/"/>
-    <id>http://yoursite.com/2020/10/13/%E7%BB%93%E7%BC%94%E7%BB%84%E7%BB%87/</id>
+    <title>神经组织</title>
+    <link href="http://yoursite.com/2020/10/13/%E7%A5%9E%E7%BB%8F%E7%BB%84%E7%BB%87/"/>
+    <id>http://yoursite.com/2020/10/13/%E7%A5%9E%E7%BB%8F%E7%BB%84%E7%BB%87/</id>
     <published>2020-10-13T11:25:10.000Z</published>
-    <updated>2020-10-19T11:21:06.535Z</updated>
+    <updated>2020-10-18T01:10:42.128Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;结缔组织&quot;&gt;&lt;a href=&quot;#结缔组织&quot; class=&quot;headerlink&quot; title=&quot;结缔组织&quot;&gt;&lt;/a&gt;结缔组织&lt;/h1&gt;
+      &lt;h1 id=&quot;神经组织&quot;&gt;&lt;a href=&quot;#神经组织&quot; class=&quot;headerlink&quot; title=&quot;神经组织&quot;&gt;&lt;/a&gt;神经组织&lt;/h1&gt;
     
     </summary>
     
@@ -226,15 +213,15 @@
   </entry>
   
   <entry>
-    <title>神经组织</title>
-    <link href="http://yoursite.com/2020/10/13/%E7%A5%9E%E7%BB%8F%E7%BB%84%E7%BB%87/"/>
-    <id>http://yoursite.com/2020/10/13/%E7%A5%9E%E7%BB%8F%E7%BB%84%E7%BB%87/</id>
+    <title>结缔组织</title>
+    <link href="http://yoursite.com/2020/10/13/%E7%BB%93%E7%BC%94%E7%BB%84%E7%BB%87/"/>
+    <id>http://yoursite.com/2020/10/13/%E7%BB%93%E7%BC%94%E7%BB%84%E7%BB%87/</id>
     <published>2020-10-13T11:25:10.000Z</published>
-    <updated>2020-10-18T01:10:42.128Z</updated>
+    <updated>2020-10-19T11:21:06.535Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;神经组织&quot;&gt;&lt;a href=&quot;#神经组织&quot; class=&quot;headerlink&quot; title=&quot;神经组织&quot;&gt;&lt;/a&gt;神经组织&lt;/h1&gt;
+      &lt;h1 id=&quot;结缔组织&quot;&gt;&lt;a href=&quot;#结缔组织&quot; class=&quot;headerlink&quot; title=&quot;结缔组织&quot;&gt;&lt;/a&gt;结缔组织&lt;/h1&gt;
     
     </summary>
     
