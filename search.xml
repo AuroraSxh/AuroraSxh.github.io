@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>scRNA-seq environment deployments</title>
+    <url>/2021/08/14/scRNA-seq-environment-deployments/</url>
+    <content><![CDATA[<h1 id="在Linux服务器上配置单细胞测序上下游环境"><a href="#在Linux服务器上配置单细胞测序上下游环境" class="headerlink" title="在Linux服务器上配置单细胞测序上下游环境"></a>在Linux服务器上配置单细胞测序上下游环境</h1><a id="more"></a>
+<p>基于Illumina的<a href="https://www.10xgenomics.com/" target="_blank" rel="noopener"><em>10X Genomics</em></a>单细胞测序数据。</p>
+<p>原理及流程在此不展示。</p>
+<h2 id="cellranger的安装"><a href="#cellranger的安装" class="headerlink" title="cellranger的安装"></a>cellranger的安装</h2><p>过于简单，直接看<a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/installation" target="_blank" rel="noopener">官网的安装说明</a>即可。</p>
+<p>通过cellranger能够获得表达矩阵，从而进入下游分析</p>
+<h2 id="下游分析软件及程序包的安装"><a href="#下游分析软件及程序包的安装" class="headerlink" title="下游分析软件及程序包的安装"></a>下游分析软件及程序包的安装</h2><p>警世格言：</p>
+<blockquote>
+<p><strong>大丈夫能伸能屈 R版本可升可降</strong></p>
+</blockquote>
+<p>已有环境：</p>
+<ul>
+<li>Ubuntu 18.04 bionic</li>
+<li>conda version 4.10.3</li>
+<li>R version 4.1.0</li>
+<li>python version 3.6.9</li>
+</ul>
+<p><del>然而以上除了Ubuntu和conda版本有点用后面俩在后续配置里可以忽略掉</del></p>
+<p>需要安装的包：</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">BiocManaer,ggplot2,ggtree,DESeq2,Seurat,SingleR,monocle,clusterProfile,</span><br><span class="line">devtools,dplyr,BiocParallel,scater,SummarizedExperiment, iTALK</span><br></pre></td></tr></table></figure>
+<p>以及一个Python包<code>cellphoneDB</code></p>
+<h2 id="直接尝试在系统已有R环境下配置"><a href="#直接尝试在系统已有R环境下配置" class="headerlink" title="直接尝试在系统已有R环境下配置"></a>直接尝试在系统已有R环境下配置</h2><p>各种报错，乱七八糟的眼花缭乱的error，“缺啥装啥”策略因为缺少过多依赖导致很难进行下去，程序包版本与R版本有一定冲突，且担心影响root下的R环境，于是决定：</p>
+<p><strong>用conda构建<code>R version 4.0</code>的子环境，在子环境内进行程序包的安装</strong></p>
+<h2 id="在子环境下进行R程序包的安装"><a href="#在子环境下进行R程序包的安装" class="headerlink" title="在子环境下进行R程序包的安装"></a>在子环境下进行R程序包的安装</h2><p>不得不说对于生信这种包版本比较混乱的应用场合，<code>conda</code>还是非常方便的。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda create -n R -</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda activate R</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install R=4.0</span></span><br></pre></td></tr></table></figure>
+<p>检查R版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> R --version</span></span><br><span class="line">R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"</span><br><span class="line">Copyright (C) 2020 The R Foundation for Statistical Computing</span><br><span class="line">Platform: x86_64-conda-linux-gnu (64-bit)</span><br><span class="line"></span><br><span class="line">R is free software and comes with ABSOLUTELY NO WARRANTY.</span><br><span class="line">You are welcome to redistribute it under the terms of the</span><br><span class="line">GNU General Public License versions 2 or 3.</span><br><span class="line">For more information about these matters see</span><br><span class="line">https://www.gnu.org/licenses/.</span><br></pre></td></tr></table></figure>
+<p>安装BiocManager</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))</span><br><span class="line">install.packages(<span class="string">"BiocManager"</span>)</span><br><span class="line">BiocManager::install(version = <span class="string">"3.12"</span>)</span><br><span class="line"><span class="comment">#调用biocmanager包</span></span><br><span class="line"><span class="keyword">library</span>(<span class="string">"BiocManager"</span>)</span><br><span class="line"><span class="comment">#利用biomanager安装常用的包（检测安装是否成功）</span></span><br><span class="line">BiocManager::install(c(<span class="string">"ggplot2"</span>,<span class="string">"ggtree"</span>,<span class="string">"DESeq2"</span>))</span><br></pre></td></tr></table></figure>
+<p>在安装’DESeq2’时候出现<code>RSQLite</code>报错</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">make: *** [/data01/lxy/miniconda3/envs/R/lib/R/etc/Makeconf:<span class="number">181</span>: SqliteColumnDataSource.o] 错误 <span class="number">1</span> </span><br><span class="line">ERROR: compilation failed <span class="keyword">for</span> package<span class="string">' RSQLite</span></span><br><span class="line"><span class="string">* removing /data01/lxy/miniconda3/envs/R/ lib/R/library/RSQLite</span></span><br><span class="line"><span class="string">ERROR: dependency '</span>RSQLite<span class="string">' is not available for package '</span>AnnotationDbi<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>尝试直接安装<code>RSQLite</code>解决：</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">install.packages(<span class="string">'RSQLite'</span>)</span><br></pre></td></tr></table></figure>
+<p>依然报错：</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">ERROR: compilation failed <span class="keyword">for</span> package ‘RSQLite’</span><br></pre></td></tr></table></figure>
+<p>查看报错信息，发现缺少<code>boost</code>依赖库<br>于是尝试</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install boost -y</span></span><br></pre></td></tr></table></figure>
+<p>再执行上述R语言命令，成功。</p>
+<p>接着安装R包<code>Seurat,singleR,monocle2,clusterprofile</code>。</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装seurat</span></span><br><span class="line">install.packages(<span class="string">"Seurat"</span>,dependencies=<span class="literal">T</span>)</span><br><span class="line"><span class="keyword">library</span>(Seurat)</span><br><span class="line"><span class="comment">#查看Seurat版本信息</span></span><br><span class="line">packageVersion(<span class="string">"Seurat"</span>)</span><br><span class="line"><span class="comment">#安装devtools</span></span><br><span class="line">install.packages(<span class="string">"devtools"</span>,dependencies=<span class="literal">T</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"devtools"</span>)</span><br><span class="line"><span class="comment">#安装SingleR</span></span><br><span class="line">devtools::install_github(<span class="string">"LTLA/SingleR"</span>) <span class="keyword">library</span>(SingleR)</span><br><span class="line"><span class="comment">#或者是biocmanager安装BiocManager::install ("SingleR")</span></span><br><span class="line"><span class="comment">#安装clusterProfiler</span></span><br><span class="line">BiocManager::install(<span class="string">"clusterProfiler"</span>)</span><br><span class="line"><span class="comment">#安装Monocle2和Monocle3包；</span></span><br><span class="line">BiocManager::install(<span class="string">"monocle"</span>)</span><br></pre></td></tr></table></figure>
+<p>安装<code>dplyr,BiocParallel,scater,SummarizedExperiment, iTALK</code></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment">#利用biomanager安装常用的包</span></span><br><span class="line">BiocManager::install(c(<span class="string">"dplyr"</span>,<span class="string">"BiocParallel"</span>,<span class="string">'scater'</span>,<span class="string">"SummarizedExperiment"</span>))</span><br><span class="line"><span class="comment">#安装Italk</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(devtools)) </span><br><span class="line">install.packages(<span class="string">"devtools"</span>)</span><br><span class="line">devtools::install_github(<span class="string">"Coolgenome/iTALK"</span>, build_vignettes = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>在安装<code>iTALK</code>时候报错：<br>![ZFB__M<del>Q_`UDY</del>AW6_6CP_C.png](<a href="https://i.loli.net/2021/08/14/XJsKLinVyUtF5Dx.png" target="_blank" rel="noopener">https://i.loli.net/2021/08/14/XJsKLinVyUtF5Dx.png</a>)<br>检查<code>Cairo</code>和<code>V8</code>依赖包，发现依赖缺失：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install Cairo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install libv8</span></span><br></pre></td></tr></table></figure>
+<p>继续运行，成功。</p>
+<h2 id="cellphoneDB的安装"><a href="#cellphoneDB的安装" class="headerlink" title="cellphoneDB的安装"></a>cellphoneDB的安装</h2><p>检查R子环境内Python版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> python --version</span></span><br><span class="line">Python 3.9.6</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install cellphoneDB</span></span><br></pre></td></tr></table></figure>
+<p>报错，hdf5相关报错：<br><img src="https://i.loli.net/2021/08/14/1fC4pkvSLKTdtsn.png" alt="16346899-c7181bd5c556c70a.PNG"><br>尝试安装<code>hdf5</code>依赖：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install hdf5 -y</span></span><br></pre></td></tr></table></figure>
+<p>继续安装，失败，参考文章<a href="https://www.jianshu.com/p/4b6ed15eb05c?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin" target="_blank" rel="noopener">《小白安装单细胞软件CellPhoneDB安不上，报错h5py，一步步解决》</a>：<br>继续安装<code>cython &amp; h5py</code>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install cython -y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install h5py -y</span></span><br></pre></td></tr></table></figure>
+<p>然后再</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install cellphoneDB</span></span><br></pre></td></tr></table></figure>
+<p>验证：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cellphonedb --<span class="built_in">help</span></span></span><br><span class="line">Usage: cellphonedb [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  database</span><br><span class="line">  method</span><br><span class="line">  plot</span><br><span class="line">  query</span><br></pre></td></tr></table></figure>
+<p>成功。</p>
+<blockquote>
+<p>后记：其实如果不建立conda子环境，直接在原生环境下进行安装，很多依赖包的补充就会很麻烦，涉及到动态库的建立等情况，甚至可能需要root权限。对于我这样的新手来说，为了不污染原生环境，使用conda建立子环境是一个比较好的选择，通过conda安装各种依赖包也是较为方便的。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>bioinfo</category>
+      </categories>
+      <tags>
+        <tag>scRNAseq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dripseq</title>
     <url>/2021/07/25/dripseq/</url>
     <content><![CDATA[<h1 id="Drip-seq上游"><a href="#Drip-seq上游" class="headerlink" title="Drip-seq上游"></a>Drip-seq上游</h1><a id="more"></a>

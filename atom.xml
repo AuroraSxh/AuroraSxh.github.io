@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-08-09T12:57:26.364Z</updated>
+  <updated>2021-08-14T02:56:26.815Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>scRNA-seq environment deployments</title>
+    <link href="http://yoursite.com/2021/08/14/scRNA-seq-environment-deployments/"/>
+    <id>http://yoursite.com/2021/08/14/scRNA-seq-environment-deployments/</id>
+    <published>2021-08-14T00:34:10.000Z</published>
+    <updated>2021-08-14T02:56:26.815Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;在Linux服务器上配置单细胞测序上下游环境&quot;&gt;&lt;a href=&quot;#在Linux服务器上配置单细胞测序上下游环境&quot; class=&quot;headerlink&quot; title=&quot;在Linux服务器上配置单细胞测序上下游环境&quot;&gt;&lt;/a&gt;在Linux服务器上配置单细胞测序上下游环境&lt;/h1&gt;
+    
+    </summary>
+    
+    
+      <category term="bioinfo" scheme="http://yoursite.com/categories/bioinfo/"/>
+    
+    
+      <category term="scRNAseq" scheme="http://yoursite.com/tags/scRNAseq/"/>
+    
+  </entry>
   
   <entry>
     <title>dripseq</title>
@@ -418,31 +439,6 @@
     
     
       <category term="Gene Transport" scheme="http://yoursite.com/tags/Gene-Transport/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/03/03/Hello-World-0/"/>
-    <id>http://yoursite.com/2020/03/03/Hello-World-0/</id>
-    <published>2020-03-03T01:37:32.000Z</published>
-    <updated>2020-03-03T01:41:45.450Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;hello-world！&quot;&gt;&lt;a href=&quot;#hello-world！&quot; class=&quot;headerlink&quot; title=&quot;hello world！&quot;&gt;&lt;/a&gt;hello
-        
-      
-    
-    </summary>
-    
-    
-    
-      <category term="小涵！" scheme="http://yoursite.com/tags/%E5%B0%8F%E6%B6%B5%EF%BC%81/"/>
     
   </entry>
   

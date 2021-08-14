@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="yxx&amp;sxh" />
+   
+  <meta name="description" content="不知道怎么描述但是现在是我的博客！" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    scRNA-seq environment deployments |  Aurora Song
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Aurora Song" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-scRNA-seq-environment-deployments" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  scRNA-seq environment deployments
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/08/14/scRNA-seq-environment-deployments/" class="article-date">
+  <time datetime="2021-08-14T00:34:10.000Z" itemprop="datePublished">2021-08-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/bioinfo/">bioinfo</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">952字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">4分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="在Linux服务器上配置单细胞测序上下游环境"><a href="#在Linux服务器上配置单细胞测序上下游环境" class="headerlink" title="在Linux服务器上配置单细胞测序上下游环境"></a>在Linux服务器上配置单细胞测序上下游环境</h1><a id="more"></a>
+<p>基于Illumina的<a href="https://www.10xgenomics.com/" target="_blank" rel="noopener"><em>10X Genomics</em></a>单细胞测序数据。</p>
+<p>原理及流程在此不展示。</p>
+<h2 id="cellranger的安装"><a href="#cellranger的安装" class="headerlink" title="cellranger的安装"></a>cellranger的安装</h2><p>过于简单，直接看<a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/installation" target="_blank" rel="noopener">官网的安装说明</a>即可。</p>
+<p>通过cellranger能够获得表达矩阵，从而进入下游分析</p>
+<h2 id="下游分析软件及程序包的安装"><a href="#下游分析软件及程序包的安装" class="headerlink" title="下游分析软件及程序包的安装"></a>下游分析软件及程序包的安装</h2><p>警世格言：</p>
+<blockquote>
+<p><strong>大丈夫能伸能屈 R版本可升可降</strong></p>
+</blockquote>
+<p>已有环境：</p>
+<ul>
+<li>Ubuntu 18.04 bionic</li>
+<li>conda version 4.10.3</li>
+<li>R version 4.1.0</li>
+<li>python version 3.6.9</li>
+</ul>
+<p><del>然而以上除了Ubuntu和conda版本有点用后面俩在后续配置里可以忽略掉</del></p>
+<p>需要安装的包：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BiocManaer,ggplot2,ggtree,DESeq2,Seurat,SingleR,monocle,clusterProfile,</span><br><span class="line">devtools,dplyr,BiocParallel,scater,SummarizedExperiment, iTALK</span><br></pre></td></tr></table></figure>
+<p>以及一个Python包<code>cellphoneDB</code></p>
+<h2 id="直接尝试在系统已有R环境下配置"><a href="#直接尝试在系统已有R环境下配置" class="headerlink" title="直接尝试在系统已有R环境下配置"></a>直接尝试在系统已有R环境下配置</h2><p>各种报错，乱七八糟的眼花缭乱的error，“缺啥装啥”策略因为缺少过多依赖导致很难进行下去，程序包版本与R版本有一定冲突，且担心影响root下的R环境，于是决定：</p>
+<p><strong>用conda构建<code>R version 4.0</code>的子环境，在子环境内进行程序包的安装</strong></p>
+<h2 id="在子环境下进行R程序包的安装"><a href="#在子环境下进行R程序包的安装" class="headerlink" title="在子环境下进行R程序包的安装"></a>在子环境下进行R程序包的安装</h2><p>不得不说对于生信这种包版本比较混乱的应用场合，<code>conda</code>还是非常方便的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda create -n R -</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda activate R</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install R=4.0</span></span><br></pre></td></tr></table></figure>
+<p>检查R版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> R --version</span></span><br><span class="line">R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"</span><br><span class="line">Copyright (C) 2020 The R Foundation for Statistical Computing</span><br><span class="line">Platform: x86_64-conda-linux-gnu (64-bit)</span><br><span class="line"></span><br><span class="line">R is free software and comes with ABSOLUTELY NO WARRANTY.</span><br><span class="line">You are welcome to redistribute it under the terms of the</span><br><span class="line">GNU General Public License versions 2 or 3.</span><br><span class="line">For more information about these matters see</span><br><span class="line">https://www.gnu.org/licenses/.</span><br></pre></td></tr></table></figure>
+<p>安装BiocManager</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))</span><br><span class="line">install.packages(<span class="string">"BiocManager"</span>)</span><br><span class="line">BiocManager::install(version = <span class="string">"3.12"</span>)</span><br><span class="line"><span class="comment">#调用biocmanager包</span></span><br><span class="line"><span class="keyword">library</span>(<span class="string">"BiocManager"</span>)</span><br><span class="line"><span class="comment">#利用biomanager安装常用的包（检测安装是否成功）</span></span><br><span class="line">BiocManager::install(c(<span class="string">"ggplot2"</span>,<span class="string">"ggtree"</span>,<span class="string">"DESeq2"</span>))</span><br></pre></td></tr></table></figure>
+<p>在安装’DESeq2’时候出现<code>RSQLite</code>报错</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">make: *** [/data01/lxy/miniconda3/envs/R/lib/R/etc/Makeconf:<span class="number">181</span>: SqliteColumnDataSource.o] 错误 <span class="number">1</span> </span><br><span class="line">ERROR: compilation failed <span class="keyword">for</span> package<span class="string">' RSQLite</span></span><br><span class="line"><span class="string">* removing /data01/lxy/miniconda3/envs/R/ lib/R/library/RSQLite</span></span><br><span class="line"><span class="string">ERROR: dependency '</span>RSQLite<span class="string">' is not available for package '</span>AnnotationDbi<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>尝试直接安装<code>RSQLite</code>解决：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">'RSQLite'</span>)</span><br></pre></td></tr></table></figure>
+<p>依然报错：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: compilation failed <span class="keyword">for</span> package ‘RSQLite’</span><br></pre></td></tr></table></figure>
+<p>查看报错信息，发现缺少<code>boost</code>依赖库<br>于是尝试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install boost -y</span></span><br></pre></td></tr></table></figure>
+<p>再执行上述R语言命令，成功。</p>
+<p>接着安装R包<code>Seurat,singleR,monocle2,clusterprofile</code>。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装seurat</span></span><br><span class="line">install.packages(<span class="string">"Seurat"</span>,dependencies=<span class="literal">T</span>)</span><br><span class="line"><span class="keyword">library</span>(Seurat)</span><br><span class="line"><span class="comment">#查看Seurat版本信息</span></span><br><span class="line">packageVersion(<span class="string">"Seurat"</span>)</span><br><span class="line"><span class="comment">#安装devtools</span></span><br><span class="line">install.packages(<span class="string">"devtools"</span>,dependencies=<span class="literal">T</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"devtools"</span>)</span><br><span class="line"><span class="comment">#安装SingleR</span></span><br><span class="line">devtools::install_github(<span class="string">"LTLA/SingleR"</span>) <span class="keyword">library</span>(SingleR)</span><br><span class="line"><span class="comment">#或者是biocmanager安装BiocManager::install ("SingleR")</span></span><br><span class="line"><span class="comment">#安装clusterProfiler</span></span><br><span class="line">BiocManager::install(<span class="string">"clusterProfiler"</span>)</span><br><span class="line"><span class="comment">#安装Monocle2和Monocle3包；</span></span><br><span class="line">BiocManager::install(<span class="string">"monocle"</span>)</span><br></pre></td></tr></table></figure>
+<p>安装<code>dplyr,BiocParallel,scater,SummarizedExperiment, iTALK</code></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#利用biomanager安装常用的包</span></span><br><span class="line">BiocManager::install(c(<span class="string">"dplyr"</span>,<span class="string">"BiocParallel"</span>,<span class="string">'scater'</span>,<span class="string">"SummarizedExperiment"</span>))</span><br><span class="line"><span class="comment">#安装Italk</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(devtools)) </span><br><span class="line">install.packages(<span class="string">"devtools"</span>)</span><br><span class="line">devtools::install_github(<span class="string">"Coolgenome/iTALK"</span>, build_vignettes = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>在安装<code>iTALK</code>时候报错：<br>![ZFB__M<del>Q_`UDY</del>AW6_6CP_C.png](<a href="https://i.loli.net/2021/08/14/XJsKLinVyUtF5Dx.png" target="_blank" rel="noopener">https://i.loli.net/2021/08/14/XJsKLinVyUtF5Dx.png</a>)<br>检查<code>Cairo</code>和<code>V8</code>依赖包，发现依赖缺失：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install Cairo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install libv8</span></span><br></pre></td></tr></table></figure>
+<p>继续运行，成功。</p>
+<h2 id="cellphoneDB的安装"><a href="#cellphoneDB的安装" class="headerlink" title="cellphoneDB的安装"></a>cellphoneDB的安装</h2><p>检查R子环境内Python版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> python --version</span></span><br><span class="line">Python 3.9.6</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install cellphoneDB</span></span><br></pre></td></tr></table></figure>
+<p>报错，hdf5相关报错：<br><img src="https://i.loli.net/2021/08/14/1fC4pkvSLKTdtsn.png" alt="16346899-c7181bd5c556c70a.PNG"><br>尝试安装<code>hdf5</code>依赖：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install hdf5 -y</span></span><br></pre></td></tr></table></figure>
+<p>继续安装，失败，参考文章<a href="https://www.jianshu.com/p/4b6ed15eb05c?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin" target="_blank" rel="noopener">《小白安装单细胞软件CellPhoneDB安不上，报错h5py，一步步解决》</a>：<br>继续安装<code>cython &amp; h5py</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> conda install cython -y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> conda install h5py -y</span></span><br></pre></td></tr></table></figure>
+<p>然后再</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install cellphoneDB</span></span><br></pre></td></tr></table></figure>
+<p>验证：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cellphonedb --<span class="built_in">help</span></span></span><br><span class="line">Usage: cellphonedb [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  database</span><br><span class="line">  method</span><br><span class="line">  plot</span><br><span class="line">  query</span><br></pre></td></tr></table></figure>
+<p>成功。</p>
+<blockquote>
+<p>后记：其实如果不建立conda子环境，直接在原生环境下进行安装，很多依赖包的补充就会很麻烦，涉及到动态库的建立等情况，甚至可能需要root权限。对于我这样的新手来说，为了不污染原生环境，使用conda建立子环境是一个比较好的选择，通过conda安装各种依赖包也是较为方便的。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2021/08/14/scRNA-seq-environment-deployments/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scRNAseq/" rel="tag">scRNAseq</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/07/25/dripseq/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">dripseq</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020-2021
+        Xiaohan Song
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo1.jpg" alt="Aurora Song"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['遇见生物与医学是我最大的幸运','要继续努力呀',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
